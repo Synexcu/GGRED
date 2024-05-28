@@ -17,12 +17,16 @@ import ThemeToggle from '@/components/ThemeToggle.astro'
     <div class="flex flex-1 items-center justify-end space-x-4">
       <nav class="flex items-center space-x-1">
         <a
-          href="https://github.com/AREA44/astro-shadcn-ui-template"
-          target="_blank"
-          rel="noreferrer"
-          class={buttonVariants({ variant: 'ghost' })}
+          href="/"
+          class={buttonVariants({ variant: 'red' })}
         >
-          GitHub
+          GGRED
+        </a>
+        <a
+          href="/ggblu"
+          class={buttonVariants({ variant: 'blue' })}
+        >
+          GGBLU
         </a>
         <ThemeToggle />
       </nav>

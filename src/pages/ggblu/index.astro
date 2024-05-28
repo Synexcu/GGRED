@@ -1,0 +1,76 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import { buttonVariants } from "@/components/ui/button"
+
+import { fetchClanInfo } from '../api/clanReq.tsx';
+
+let GGRED = await fetchClanInfo(1);
+let GGBLU = await fetchClanInfo(2);
+---
+
+<BaseLayout
+  title="Welcome to GGRED Website!"
+  description="This template helps you build apps with Astro, Tailwind CSS, and Shadcn UI."
+>
+  <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <div class="min-w-full min-h-screen flex items-center">
+      <img src="/bgtest.jpg" class="md:object-contain">
+    </div>
+  </section>
+  
+  <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <h1
+    class="text-3xl font-extrabold leading-tight tracking-tighter text-center md:text-4xl"
+    >
+    Welcome to {GGBLU?.tag}
+    </h1>
+    <p>
+      {GGBLU ? (
+        <div>
+            <h2>{GGBLU?.name}</h2>
+            <p>Tag: {GGBLU?.tag}</p>
+            <p>Leader: {GGBLU?.leader_name}</p>
+            <p>Members: {GGBLU?.members_count}</p>
+            <h3>Members</h3>
+            <ul>
+            </ul>
+        </div>
+    ) : (
+        <p>Failed to load clan data.</p>
+    )}
+    </p>
+  </section>
+
+  <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <div class="flex max-w-[980px] flex-col items-start gap-2">
+      <h1
+        class="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl"
+      >
+        Astro Shadcn UI Template <br class="hidden sm:inline" />
+        built with Radix UI and Tailwind CSS.
+      </h1>
+      <p class="max-w-[700px] text-lg text-muted-foreground">
+        Accessible and customizable components that you can copy and paste into
+        your apps. Free. Open Source.
+      </p>
+    </div>
+    <div class="flex gap-4">
+      <a
+        href="https://ui.shadcn.com"
+        target="_blank"
+        rel="noreferrer"
+        class={buttonVariants()}
+      >
+        Documentation
+      </a>
+      <a
+        href="https://github.com/AREA44/astro-shadcn-ui-template"
+        target="_blank"
+        rel="noreferrer"
+        class={buttonVariants({ variant: 'outline' })}
+      >
+        GitHub
+      </a>
+    </div>
+  </section>
+</BaseLayout>
