@@ -19,7 +19,9 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         red: 'hover:bg-accent hover:text-accent-foreground hover:text-red-500',
+        redDiscord: 'bg-red-600  hover:bg-white hover:text-red-500',
         blue: 'hover:bg-accent hover:text-accent-foreground hover:text-blue-500',
+        blueDiscord: 'bg-blue-600 hover:bg-white hover:text-blue-500',
       },
       size: {
         default: 'h-10 px-4 py-2',
