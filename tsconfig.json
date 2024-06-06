@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/pages/api/*"]
+      "@@/*": ["src/pages/api/*"],
+      "&/*": ["public/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

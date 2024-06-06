@@ -1,0 +1,40 @@
+---
+export function getStaticPaths() {
+  return [
+    {params: {allies: 'YOR'}},
+    {params: {allies: 'REPOI'}},
+    // {params: {allies: 'spot'}},
+  ];
+}
+
+import BaseLayout from "@/layouts/BaseLayoutGGRED.astro"
+
+const { allies } = Astro.params;
+
+// Define a type for the allies keys
+type Allies = 'YOR' | 'REPOI'; // Add other keys as needed
+
+// Define the mapping of allies to IDs
+const alliesMap: Record<Allies, string> = {
+  'YOR': '001',
+  'REPOI': '002',
+  // Add other mappings here as needed
+};
+
+// Define the function to map allies values to IDs
+function alliesIDlogic(allies: Allies): string {
+  return alliesMap[allies];
+}
+
+// Get the corresponding ID for the current ally
+const alliesIDtoUse = alliesIDlogic(allies as Allies);
+---
+<BaseLayout
+  title=`Welcome to ${allies} Website!`
+  description="See our community, Check out our achievements, or just looking around? We got'chu bro, come on in."
+>
+
+  <div>Good ally!, {allies}!</div>
+  <div>ID: {alliesIDtoUse}!</div>
+
+</BaseLayout>

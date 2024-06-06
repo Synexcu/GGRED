@@ -1,0 +1,30 @@
+---
+import HeadSEO from '@/components/HeadSEO.astro'
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+import GSAP from '@/components/GSAPggblu.astro'
+
+interface Props {
+  title?: string | undefined
+  description?: string | undefined
+  ogImage?: URL | undefined
+}
+
+const { title, description, ogImage } = Astro.props
+---
+
+<html lang="en" class="scroll-smooth">
+  <head>
+    <HeadSEO title={title} description={description} ogImage={ogImage} />
+    <GSAP />
+  </head>
+  <body class="min-h-screen bg-background font-sans antialiased">
+    <div class="relative flex min-h-screen flex-col snap-mandatory snap-y h-screen"> <!-- snap-mandatory -->
+      <main class="flex-auto">
+        <Header />
+        <slot />
+        <Footer />
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,17 @@
 ---
 import { buttonVariants } from '@/components/ui/button'
 import ThemeToggle from '@/components/ThemeToggle.astro'
+
+const { url } = Astro.request;
+const currentPath = new URL(url).pathname;
+
+// Determine if the current page is GGRED or GGBLU
+const isGGREDPage = currentPath === '/ggred';
+const isGGBLUPage = currentPath === '/ggblu';
+
+// Determine the title and href based on the current page
+const ggPageTitle = isGGREDPage ? 'GGBLU' : 'GGRED';
+const ggPageHref = isGGREDPage ? '/ggblu' : '/ggred';
 ---
 
 <header
@@ -16,17 +27,14 @@ import ThemeToggle from '@/components/ThemeToggle.astro'
     </div>
     <div class="flex flex-1 items-center justify-end space-x-4">
       <nav class="flex items-center space-x-1">
-        <a
-          href="/ggred"
-          class={buttonVariants({ variant: 'red' })}
-        >
-          GGRED
+        <a href={ggPageHref} class={buttonVariants({ variant: isGGREDPage ? 'blue' : 'red' })}>
+          {ggPageTitle}
         </a>
         <a
-          href="/ggblu"
-          class={buttonVariants({ variant: 'blue' })}
+          href="/alliances"
+          class={buttonVariants({ variant: 'alliance' })}
         >
-          GGBLU
+          ALLIES
         </a>
         <ThemeToggle />
       </nav>

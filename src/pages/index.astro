@@ -1,27 +1,101 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro"
-import { buttonVariants } from "@/components/ui/button"
-import MaxWidthWrapper from "@/components/MaxWidthWrapper.astro";
+import BaseLayoutGGRED from "@/layouts/BaseLayoutGGRED.astro"
+import { Button, buttonVariants } from "@/components/ui/button"
+import MaxWidthWrapper from "@/components/MaxWidthWrapper.astro"
+import ClanEmblem from "@/components/ClanEmblemConstr.astro"
+import { Transition } from '@headlessui/react'
 
-import { fetchClanInfo } from '@@/clanReq.tsx';
+// import Image from "astro/components/Image.astro";
+import { Image } from "astro:assets";
+
+import { FaDiscord } from "react-icons/fa";
+
+import { fetchClanInfo } from '@/pages/api/clanReq.ts';
+import { fetchClanWebCBInfo } from '@/pages/api/clanWebReq.ts'
 
 let GGRED = await fetchClanInfo(1);
 let GGBLU = await fetchClanInfo(2);
----
 
-<BaseLayout
+let GGREDWebCBInfo = await fetchClanWebCBInfo(1);
+let GGBLUWebCBInfo = await fetchClanWebCBInfo(2);
+
+let GGREDiconColor = "#Ef4444"
+let GGBLUiconColor = "#3b82f6"
+
+let GGREDtextColor = "red"
+let GGBLUtextColor = "blue"
+
+let clanIconColor = GGREDiconColor // Change this
+let clanTextColor = GGREDtextColor // Change this
+
+let leagueColor : any
+let leagueTitle : string
+let leagueHex : any
+function leagueTranslator(league : number) {
+  if (league === 4) {
+    leagueColor = "text-[#CC9966]"
+    leagueTitle = "Squall"
+    leagueHex = "#CC9966"
+  } else if (league === 3) {
+    leagueColor = "text-[#CCE4E4]"
+    leagueTitle = "Gale"
+    leagueHex = "#CCE4E4"
+  } else if (league === 2) {
+    leagueColor = "text-[#E3D6A0]"
+    leagueTitle ="Storm"
+    leagueHex = "#E3D6A0"
+  } else if (league === 1) {
+    leagueColor = "text-[#BEE7BD]"
+    leagueTitle ="Typhoon"
+    leagueHex = "#BEE7BD"
+  } else if (league === 0) {
+    leagueColor = "text-[#CDA4FF]"
+    leagueTitle ="Hurricane"
+    leagueHex = "#CDA4FF"
+  }
+  return {leagueColor, leagueTitle, leagueHex}
+}
+
+function divisionTranslator(division : number) {
+  if (division === 1) {
+    return "I"
+  } else if (division === 2) {
+    return "II"
+  } else if (division === 3) {
+    return "III"
+  }
+} 
+
+const filteredMembersExec = Object.entries(GGRED!.members).filter(
+    ([id, member]) => member.role === 'executive_officer'
+);
+
+const filteredMembersRecruit = Object.entries(GGRED!.members).filter(
+    ([id, member]) => member.role === 'recruitment_officer'
+);
+
+const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
+
+---
+<BaseLayoutGGRED
   title="Welcome to GGRED Website!"
   description="See our community, Check out our achievements, or just looking around? We got'chu bro, come on in."
 >
-  <section class="grid items-center gap-6 pb-8 pt-6">
-    <div class="flex bg-[url('/bg-ggred.jpg')] min-w-full min-h-screen bg-cover bg-no-repeat items-center">
+  <section id="home" class="grid items-center gap-6 snap-end"> <!-- pt-6 pb-8 -->
+    <div class="flex bg-[url('/bg-ggred.jpg')] min-w-full min-h-screen bg-cover bg-center bg-origin-border bg-no-repeat items-center">
       <div class="bg-gradient-to-r from-gray-950 to-transparent min-w-full">
         <MaxWidthWrapper className="min-h-screen flex min-[320px]:pt-10">
           <div class="w-full h-[calc(100vh-5rem)] pt-20 flex flex-col justify-center gap-4 px-4 md:w-[50%]">
-            <div class="text-5xl text-white md:text-6xl font-sans">Welcome to <a class="text-red-500">{GGRED?.tag}</a> </div>
-            <div class="text-md text-white md:text-base min-[500px]:w-[70%]">
+            <div class="text-5xl text-white font-bold animate-in fade-in-0 slide-in-from-top duration-1000 md:text-6xl">Welcome to <a class="text-red-500">{GGRED?.tag}</a> </div>
+            <div class="text-md text-white animate-in fade-in-0 duration-1000 md:text-base min-[500px]:w-[70%]">
               <a class="font-bold">Outwit, Outplay, Outlast – Dive into the Thrill of Strategic Naval Warfare!</a> <br/><br/>
               Welcome to our World of Warships Community!
+            </div>
+            <div class="text-white animate-in fade-in-0 slide-in-from-bottom duration-1000">
+              <a href="https://discord.gg/z43eSF5uMH" target="_blank" rel="noreferrer" class={buttonVariants({ variant: 'redDiscord' })}>
+                <FaDiscord className="mr-2"/>
+                Join our Discord!!
+              </a>
             </div>
           </div>
         </MaxWidthWrapper>
@@ -29,11 +103,355 @@ let GGBLU = await fetchClanInfo(2);
     </div>
   </section>
   
-  <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+  <section class="container grid content-center text-center justify-center py-10 h-screen snap-center">
+    <h1 class="clantitle opacity-0 translate-y-20 text-3xl font-extrabold leading-tight text-center md:text-4xl">
+      ❝&nbsp;&nbsp; {GGRED?.name} &nbsp;&nbsp;❞
+    </h1>
+  </section>
+
+  <section id="welcome" class="container min-h-screen content-center text-foreground body-font snap-center">
+    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center content-center">
+      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+          <h1 class="welcometitle opacity-0 translate-y-20 title-font sm:text-4xl text-3xl mb-4 font-medium text-foreground">Welcome to GGREDs.
+            <br class="hidden lg:inline-block">Who are we?
+          </h1>
+          
+          <!-- <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-foreground delay-[300ms] duration-[600ms] taos:translate-y-[200px] taos:opacity-0" data-taos-offset="300">Welcome to GGREDs.
+            <br class="hidden lg:inline-block">Who are we?
+          </h1> -->
+        <p class="welcomedesc opacity-0 translate-y-20 mb-8 leading-relaxed">
+          We are a semi-competitive clan where we aim to create a friendly competitive community to learn and develop together.
+          If you are looking for someone to play with, or want to participate in Clan Battles as mercenaries, just join our <a class="text-blue-500">Discord</a>!
+        </p>
+        <div class="welcomediscord opacity-0 translate-y-20 flex justify-center">
+          <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onclick="window.open('https://discord.gg/z43eSF5uMH', '_blank')">Join Discord</button>
+          <!-- <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg" onclick="window.open('https://dyno.gg/form/e3fa0a61', '_blank')">Apply here</button> -->
+        </div>
+      </div>
+      <div class="flex lg:max-w-lg lg:w-full md:w-1/2 content-center">
+        <section class="welcomequote opacity-0 -translate-y-20 container grid items-center gap-8 pb-8 pt-6"> 
+          <div class="w-full mx-auto rounded-lg bg-foreground shadow-lg px-5 pt-5 pb-10" style="max-width: 500px">
+              <div class="w-full pt-1 pb-5">
+                  <div class="overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg">
+                    <Image
+                    src={"/light_discord.png"}
+                    class="flex"
+                    width={256}
+                    height={256}
+                    alt="Discord Profile"
+                    />
+                  </div>
+              </div>
+              <div class="w-full mb-8">
+                  <div class="text-3xl text-indigo-500 text-left leading-tight h-3">“</div>
+                  <p class="text-md text-background text-center px-5">I segregate against giga tryhards</p>
+                  <div class="text-3xl text-indigo-500 text-right leading-tight h-3 -mt-3">”</div>
+              </div>
+              <div class="w-full">
+                  <p class="text-lg text-indigo-500 font-bold text-center">Light_Underscore</p>
+                  <p class="text-sm text-background text-center">@light_underscore</p>
+              </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="container grid items-center gap-8 pb-8 pt-6"> 
+    <div class="w-full mx-auto rounded-lg bg-foreground shadow-lg px-5 pt-5 pb-10" style="max-width: 500px">
+        <div class="w-full pt-1 pb-5">
+            <div class="overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg">
+                <img src="/light_discord.png" alt="Discord Profile">
+            </div>
+        </div>
+        <div class="w-full mb-8">
+            <div class="text-3xl text-indigo-500 text-left leading-tight h-3">“</div>
+            <p class="text-md text-background text-center px-5">I segregate against giga tryhards</p>
+            <div class="text-3xl text-indigo-500 text-right leading-tight h-3 -mt-3">”</div>
+        </div>
+        <div class="w-full">
+            <p class="text-lg text-indigo-500 font-bold text-center">Light_Underscore</p>
+            <p class="text-sm text-background text-center">@light_underscore</p>
+        </div>
+    </div>
+  </section> -->
+
+
+  <section id="overview" class="grid items-center gap-6 pb-8 pt-6 body-font min-h-screen md:py-10">
+    <div class="clandiv flex bg-[url('/clanstat.jpg')] text-white min-w-full min-h-screen bg-cover bg-center bg-origin-border bg-no-repeat items-center snap-center">
+      <div class="bg-gray-700/30 backdrop-brightness-50 min-w-full min-h-screen bg-center bg-cover bg-origin-border bg-no-repeat content-center">
+        <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+          <h1 class="clanstattitle opacity-0 -translate-y-20 text-4xl content-center align-top text-center font-extrabold">OUR CLAN OVERVIEW</h1>
+          <!-- <h2 class="text-xl content-center text-center font-medium">Retrieved at: {d.toLocaleDateString()}</h2> -->
+          <h2 class="clanstatquote opacity-0 translate-y-20 text-xl content-center text-center font-medium"><q>One step ahead, two steps today, three steps tomorrow, four steps never</q> <br /> &ndash; Duke_Cardinal</h2>
+          <!-- <p class="text-xl content-center text-center font-medium"></p> -->
+          <div class="clanstatbar opacity-0 scale-x-0 border-t border-gray-200"></div>
+          <div class="container px-5 py-24 mx-auto body-font">
+            <div class="flex flex-wrap -m-4 text-center">
+              <div class="clanstatdate opacity-0 translate-y-20 p-4 animate-accordion-up min-[1010px]:w-1/4 sm:w-1/2 w-full">
+                <div class="border-2 bg-[#0F132D] px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110">
+                  <svg width="30px" height="30px" stroke-linecap="round" stroke-linejoin="round" viewBox="-0.5 0 15 15" class=`text-${clanTextColor}-500 w-12 h-12 mb-3 inline-block` xmlns="http://www.w3.org/2000/svg">
+                    <path fill=`${clanIconColor}` fill-rule="evenodd" d="M107,154.006845 C107,153.45078 107.449949,153 108.006845,153 L119.993155,153 C120.54922,153 121,153.449949 121,154.006845 L121,165.993155 C121,166.54922 120.550051,167 119.993155,167 L108.006845,167 C107.45078,167 107,166.550051 107,165.993155 L107,154.006845 Z M108,157 L120,157 L120,166 L108,166 L108,157 Z M116.5,163.5 L116.5,159.5 L115.757485,159.5 L114.5,160.765367 L114.98503,161.275112 L115.649701,160.597451 L115.649701,163.5 L116.5,163.5 Z M112.5,163.5 C113.412548,163.5 114,163.029753 114,162.362119 C114,161.781567 113.498099,161.473875 113.110266,161.433237 C113.532319,161.357765 113.942966,161.038462 113.942966,160.550798 C113.942966,159.906386 113.395437,159.5 112.505703,159.5 C111.838403,159.5 111.359316,159.761248 111.051331,160.115385 L111.456274,160.632075 C111.724335,160.370827 112.055133,160.231495 112.425856,160.231495 C112.819392,160.231495 113.13308,160.382438 113.13308,160.690131 C113.13308,160.974601 112.847909,161.102322 112.425856,161.102322 C112.28327,161.102322 112.020913,161.102322 111.952471,161.096517 L111.952471,161.839623 C112.009506,161.833817 112.26616,161.828012 112.425856,161.828012 C112.956274,161.828012 113.190114,161.967344 113.190114,162.275036 C113.190114,162.565312 112.93346,162.768505 112.471483,162.768505 C112.10076,162.768505 111.684411,162.605951 111.427757,162.327286 L111,162.87881 C111.279468,163.227141 111.804183,163.5 112.5,163.5 Z M110,152.5 C110,152.223858 110.214035,152 110.504684,152 L111.495316,152 C111.774045,152 112,152.231934 112,152.5 L112,153 L110,153 L110,152.5 Z M116,152.5 C116,152.223858 116.214035,152 116.504684,152 L117.495316,152 C117.774045,152 118,152.231934 118,152.5 L118,153 L116,153 L116,152.5 Z" transform="translate(-107 -152)"/>
+                  </svg>
+                  <h2 class="title-font font-medium text-3xl">{new Date(GGRED!.created_at * 1000).toLocaleDateString()}</h2>
+                  <p class="leading-relaxed">Date of Establishment</p>
+                </div>
+              </div>
+              <div class="clanstatmember opacity-0 -translate-y-20 p-4 min-[1010px]:w-1/4 sm:w-1/2 w-full">
+                <div class="border-2 bg-[#0F132D] px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class=`text-${clanTextColor}-500 w-12 h-12 mb-3 inline-block` viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"></path>
+                  </svg>
+                  <h2 class="title-font font-medium text-3xl">{GGRED?.members_count}</h2>
+                  <p class="leading-relaxed">Members</p>
+                </div>
+              </div>
+              <div class="clanstatrank opacity-0 translate-y-20 p-4 min-[1010px]:w-1/4 sm:w-1/2 w-full">
+                <div class="border-2 bg-[#0F132D] px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110">
+                  <div class="relative flex justify-center items-center content-center">
+                    <!-- <Image src={Storm} alt="Image" width="264" class="absoulte top-0 left-0 z-49"/> -->
+                    <!-- <Image src={cvc_3} alt="Image" class="absolute justify-center pt-3 z-50"/> -->
+                    <!-- <h1 class=`title-font font-medium text-5xl text-${clanTextColor}-500 justify-center py-1.5`>{GGRED?.tag}</h1> -->
+                    <!-- <div class="wru__ClanLeagueSignInline__container" style="border-color: rgb(227, 214, 160);">III</div> -->
+                    <p class="absolute justify-center z-50 text-3xl font-extrabold">{divisionTranslator(GGREDWebCBInfo!.max_position.division)}</p>
+                    <svg fill=`${leagueInfo.leagueHex}` version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                      width="60px" height="60px" viewBox="0 0 595.021 595.021" xml:space="preserve">
+                      <g>
+                        <g>
+                          <g>
+                            <path d="M507.529,87.493c-27.264-27.264-59.022-48.672-94.396-63.635C376.489,8.358,337.588,0.5,297.511,0.5 c-40.078,0-78.979,7.858-115.624,23.358c-35.373,14.961-67.132,36.371-94.395,63.635c-27.264,27.263-48.673,59.022-63.635,94.395 C8.358,218.532,0.5,257.434,0.5,297.511c0,40.077,7.858,78.979,23.358,115.623c14.961,35.373,36.371,67.132,63.635,94.396 c27.263,27.263,59.022,48.672,94.395,63.634c36.645,15.5,75.546,23.358,115.624,23.358c40.077,0,78.979-7.858,115.623-23.358	c35.373-14.961,67.133-36.371,94.396-63.634c27.263-27.264,48.673-59.022,63.634-94.396 c15.499-36.645,23.358-75.546,23.358-115.623c0-40.077-7.858-78.979-23.358-115.624	C556.202,146.515,534.792,114.756,507.529,87.493z M297.511,551.682c-140.375,0-254.171-113.797-254.171-254.171 c0-140.375,113.796-254.171,254.171-254.171c140.374,0,254.171,113.796,254.171,254.171	C551.682,437.885,437.885,551.682,297.511,551.682z"/>
+                            <path d="M297.511,595.021c-40.146,0-79.112-7.872-115.818-23.397c-35.433-14.988-67.245-36.434-94.553-63.741 c-27.31-27.31-48.755-59.122-63.742-94.555C7.872,376.623,0,337.656,0,297.511c0-40.145,7.872-79.112,23.397-115.818 c14.987-35.432,36.433-67.245,63.742-94.553c27.308-27.309,59.12-48.755,94.553-63.742C218.399,7.872,257.366,0,297.511,0 c40.146,0,79.112,7.872,115.817,23.397c35.435,14.988,67.247,36.434,94.555,63.742c27.31,27.31,48.755,59.123,63.741,94.553 c15.525,36.706,23.397,75.673,23.397,115.818c0,40.144-7.872,79.11-23.397,115.817c-14.985,35.432-36.432,67.244-63.741,94.555 c-27.31,27.31-59.122,48.755-94.555,63.741C376.623,587.149,337.656,595.021,297.511,595.021z M297.511,1 C257.5,1,218.665,8.845,182.082,24.318c-35.314,14.937-67.02,36.311-94.236,63.528c-27.218,27.217-48.591,58.923-63.528,94.236 C8.845,218.665,1,257.5,1,297.511s7.845,78.847,23.318,115.429c14.936,35.312,36.31,67.019,63.528,94.236 c27.217,27.216,58.922,48.59,94.236,63.526c36.582,15.474,75.417,23.319,115.429,23.319c40.011,0,78.847-7.846,115.429-23.319 c35.312-14.936,67.019-36.309,94.236-63.526c27.219-27.22,48.592-58.925,63.526-94.236 c15.474-36.584,23.319-75.42,23.319-115.429c0-40.011-7.846-78.847-23.319-115.429c-14.935-35.312-36.309-67.017-63.526-94.236 c-27.217-27.216-58.922-48.59-94.236-63.528C376.357,8.845,337.521,1,297.511,1z M297.511,552.182 c-68.025,0-131.979-26.49-180.08-74.592C69.33,429.489,42.84,365.535,42.84,297.511c0-68.025,26.49-131.979,74.591-180.08 S229.486,42.84,297.511,42.84c68.024,0,131.979,26.49,180.079,74.591c48.102,48.101,74.592,112.055,74.592,180.08 c0,68.024-26.49,131.979-74.592,180.079C429.489,525.691,365.535,552.182,297.511,552.182z M297.511,43.84 c-67.758,0-131.46,26.386-179.373,74.298S43.84,229.753,43.84,297.511s26.386,131.46,74.298,179.372 c47.913,47.912,111.615,74.299,179.373,74.299s131.46-26.387,179.372-74.299s74.299-111.614,74.299-179.372 s-26.387-131.46-74.299-179.373C428.971,70.226,365.269,43.84,297.511,43.84z"/>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                  <h2 class="title-font font-medium text-3xl text-white">
+                    <a class={leagueInfo.leagueColor}>
+                      {leagueInfo.leagueTitle}
+                    </a> 
+                    {divisionTranslator(GGREDWebCBInfo!.max_position.division)}
+                  </h2>
+                  <p class="leading-relaxed">Season CB Record</p>
+                </div>
+              </div>
+              <div class="clanstatwr opacity-0 -translate-y-20 p-4 min-[1010px]:w-1/4 sm:w-1/2 w-full">
+                <div class="border-2 bg-[#0F132D] px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class=`text-${clanTextColor}-500 w-12 h-12 mb-3 inline-block` viewBox="0 0 24 24">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                  <h2 class="clanstatwrtxt title-font font-medium text-3xl">{(GGREDWebCBInfo!.wins_count/GGREDWebCBInfo!.battles_count*100).toFixed(2)}%</h2>
+                  <p class="leading-relaxed">Season CB Winrate</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="text-gray-700 body-font">
+    <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Before they sold out
+          <br class="hidden lg:inline-block">readymade gluten
+        </h1>
+        <p class="mb-8 leading-relaxed">Copper mug try-hard pitchfork pour-over freegan heirloom neutra air plant cold-pressed tacos poke beard tote bag. Heirloom echo park mlkshk tote bag selvage hot chicken authentic tumeric truffaut hexagon try-hard chambray.</p>
+        <div class="flex justify-center">
+          <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+          <button class="ml-4 inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg">Button</button>
+        </div>
+      </div>
+      <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+        <img class="object-cover object-center rounded" alt="hero" src="https://dummyimage.com/720x600/edf2f7/a5afbd">
+      </div>
+    </div>
+  </section> -->
+
+  <section class="text-foreground/70 body-font pt-20">
+    <div class="border-t border-gray-500">
+      <!-- <div class="bg-gray-700/30 backdrop-brightness-50 min-w-full bg-center bg-cover bg-origin-border bg-no-repeat content-center"> -->
+        <div class="flex bg-[url('/team.png')] min-w-full h-[32rem] bg-cover bg-center bg-no-repeat justify-center content-center items-center">
+          <div class="flex flex-col text-center w-full h-full mb-20 content-center justify-center items-center">
+            <h1 class="teamtitle opacity-0 translate-y-20 sm:text-3xl text-2xl font-bold title-font mb-4 text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">Our Team</h1>
+            <p class="teamtxt opacity-0 translate-y-10 lg:w-2/3 mx-auto leading-relaxed text-base text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them.</p>
+          </div>
+        </div>
+      <!-- </div> -->
+    </div>
+
+    <!-- <div class="border-t border-gray-200 "> -->
+      <div class="container px-5 mx-auto"> <!-- py-24 -->
+        <!-- COMMANDER -->
+        <div class="flex flex-wrap -m-2 mb-10 justify-center pt-10">
+          <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+            <div class="card cardCommand opacity-0 h-full flex items-center border-gray-200 border p-4 rounded-lg">
+              <div class="flex object-cover object-center items-center content-center justify-center flex-shrink-0 mr-4 rounded-full w-16 h-16">
+                <Image
+                src={"/rank_commander.png"}
+                class="flex"
+                width={37}
+                height={37}
+                alt="Rank Commander"
+                />
+              </div>
+              <div class="flex-grow">
+                <h2 class="text-foreground title-font font-medium">{GGRED?.leader_name}</h2>
+                <p class="text-foreground/70">Commander</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- EXECUTIVES -->
+        <div class="flex flex-wrap -m-2 mb-10">
+          {filteredMembersExec.map(([id, member], index) => (
+            <div key!={id} class=`cardExec-${index + 1} card opacity-0 p-2 lg:w-1/3 md:w-1/2 w-full`>
+              <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                <div class="flex object-cover object-center items-center content-center justify-center flex-shrink-0 mr-4 rounded-full w-16 h-16">
+                  <Image
+                  src={"/rank_executive.png"}
+                  class="flex"
+                  width={37}
+                  height={37}
+                  alt="Rank Executive"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
+                  <p class="text-foreground/70">{member.role}</p>
+                </div>
+                  <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <!-- RECRUITERS -->
+        <div class="flex flex-wrap -m-2 mb-10">
+          {filteredMembersRecruit.map(([id, member], index) => (
+            <div key!={id} class=`cardRecruit-${index + 1} card opacity-0 p-2 lg:w-1/3 md:w-1/2 w-full`>
+              <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                <div class="flex object-cover object-center items-center content-center justify-center flex-shrink-0 mr-4 rounded-full w-16 h-16">
+                  <Image
+                  src={"/rank_recruit.png"}
+                  class="flex"
+                  width={37}
+                  height={37}
+                  alt="Rank Recruiter"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
+                  <p class="text-foreground/70">{member.role}</p>
+                </div>
+                  <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    <!-- </div> -->
+  </section>
+
+  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-col text-center w-full mb-20">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Our Team</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them.</p>
+      </div>
+      <div class="flex flex-wrap -m-2">
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/80x80/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Holden Caulfield</h2>
+              <p class="text-gray-500">UI Designer</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/84x84/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Henry Letham</h2>
+              <p class="text-gray-500">CTO</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/88x88/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Oskar Blinde</h2>
+              <p class="text-gray-500">Founder</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/90x90/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">John Doe</h2>
+              <p class="text-gray-500">DevOps</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/94x94/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Martin Eden</h2>
+              <p class="text-gray-500">Software Engineer</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/98x98/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Boris Kitua</h2>
+              <p class="text-gray-500">UX Researcher</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/100x90/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Atticus Finch</h2>
+              <p class="text-gray-500">QA Engineer</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/104x94/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Alper Kamu</h2>
+              <p class="text-gray-500">System</p>
+            </div>
+          </div>
+        </div>
+        <div class="p-2 lg:w-1/3 md:w-1/2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4" src="https://dummyimage.com/108x98/edf2f7/a5afbd">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Rodrigo Monchi</h2>
+              <p class="text-gray-500">Product Manager</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section class="container grid items-center gap-8 pb-8 pt-6 md:py-10">
     <h1
     class="text-3xl font-extrabold leading-tight tracking-tighter text-center md:text-4xl"
     >
-    Welcome to {GGRED?.tag}
+    Our Members:
     </h1>
     <p>
       {GGRED ? (
@@ -42,7 +460,15 @@ let GGBLU = await fetchClanInfo(2);
             <p>Tag: {GGRED?.tag}</p>
             <p>Leader: {GGRED?.leader_name}</p>
             <p>Members: {GGRED?.members_count}</p>
-            <h3>Members</h3>
+            <p>Members:</p>
+            <ul>
+                {filteredMembersExec.map(([id, member]) => (
+                    <li key!={id} class="member">
+                        <strong>{member.account_name}</strong> ({member.role})
+                        <p>Joined at: {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+                    </li>
+                ))}
+            </ul>
             <ul>
             </ul>
         </div>
@@ -50,9 +476,538 @@ let GGBLU = await fetchClanInfo(2);
         <p>Failed to load clan data.</p>
     )}
     </p>
+
+    <p>
+      {GGRED ? (
+        <div>
+            <h2>{GGRED?.name}</h2>
+            <p>Tag: {GGRED?.tag}</p>
+            <p>Leader: {GGRED?.leader_name}</p>
+            <p>Members: {GGRED?.members_count}</p>
+            <p>Members:</p>
+            <ul>
+                {filteredMembersRecruit.map(([id, member]) => (
+                    <li key!={id} class="member">
+                        <strong>{member.account_name}</strong> ({member.role})
+                        <p>Joined at: {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+                    </li>
+                ))}
+            </ul>
+            <ul>
+            </ul>
+        </div>
+    ) : (
+        <p>Failed to load clan data.</p>
+    )}
+    </p>
+  </section> -->
+
+  <section class="text-gray-700 body-font border-t border-gray-200 snap-center">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-col text-center w-full mb-20">
+        <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">HALL OF FAME</h2>
+        <h1 class="sm:text-3xl text-2xl font-medium title-font text-foreground/90">Huge Thanks To These Contributors</h1>
+      </div>
+      <div class="flex flex-wrap -m-4">
+        <div class="p-4 w-full md:w-1/3">
+          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+            <div class="flex items-center mb-3">
+              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg> -->
+                <!-- <div class="overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg"> -->
+                    <Image
+                    src={"/cont_techy_discord.png"}
+                    class="flex"
+                    width={256}
+                    height={256}
+                    alt="Discord Profile"
+                    class="rounded-full overflow-hidden"
+                    />
+                  <!-- </div> -->
+              </div>
+              <h2 class="text-gray-900 text-lg title-font font-medium">Techy</h2>
+            </div>
+            <div class="flex-grow">
+              <p class="leading-relaxed text-base">Uses lots of his time to teach the members of our clan to help improve as a player, teaching strategies for competitive Clan Battles, and more.</p>
+              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a> -->
+            </div>
+          </div>
+        </div>
+        <div class="p-4 w-full md:w-1/3">
+          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+            <div class="flex items-center mb-3">
+              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg> -->
+                <Image
+                    src={"/cont_razor_discord.gif"}
+                    class="flex"
+                    width={256}
+                    height={256}
+                    alt="Discord Profile"
+                    class="rounded-full overflow-hidden"
+                    />
+              </div>
+              <h2 class="text-gray-900 text-lg title-font font-medium">Razer</h2>
+            </div>
+            <div class="flex-grow">
+              <p class="leading-relaxed text-base">Supports our clan's growth.</p>
+              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a> -->
+            </div>
+          </div>
+        </div>
+        <div class="p-4 w-full md:w-1/3">
+          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+            <div class="flex items-center mb-3">
+              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <circle cx="6" cy="6" r="3"></circle>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                </svg> -->
+                <Image
+                    src={"/cont_shino_discord_2.png"}
+                    class="flex"
+                    width={256}
+                    height={256}
+                    alt="Discord Profile"
+                    class="rounded-full overflow-hidden"
+                    />
+              </div>
+              <h2 class="text-gray-900 text-lg title-font font-medium">Shino</h2>
+            </div>
+            <div class="flex-grow">
+              <p class="leading-relaxed text-base">Helped our clan learn more about clan battles since Day 1.</p>
+              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a> -->
+            </div>
+          </div>
+        </div>
+        <div class="p-4 w-full md:w-1/3">
+          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
+            <div class="flex items-center mb-3">
+              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                  <circle cx="6" cy="6" r="3"></circle>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+                </svg> -->
+                <Image
+                    src={"/cont_oxy_discord.png"}
+                    class="flex"
+                    width={256}
+                    height={256}
+                    alt="Discord Profile"
+                    class="rounded-full overflow-hidden"
+                    />
+              </div>
+              <h2 class="text-gray-900 text-lg title-font font-medium">Oxyphen</h2>
+            </div>
+            <div class="flex-grow">
+              <p class="leading-relaxed text-base">Former OG member. Uses his current experience to support our clan and improve.</p>
+              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap">
+      <div class="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
+        <img alt="feature" class="object-cover object-center h-full w-full" src="https://dummyimage.com/600x600/edf2f7/a5afbd">
+      </div>
+      <div class="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">
+        <div class="flex flex-col mb-10 lg:items-start items-center">
+          <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Shooting Stars</h2>
+            <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
+            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="flex flex-col mb-10 lg:items-start items-center">
+          <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+            </svg>
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-3">The Catalyzer</h2>
+            <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
+            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="flex flex-col mb-10 lg:items-start items-center">
+          <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Neptune</h2>
+            <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine.</p>
+            <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Pitchfork Kickstarter Taxidermy</h1>
+        <p class="lg:w-1/2 w-full leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table.</p>
+      </div>
+      <div class="flex flex-wrap -m-4">
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+          <div class="border border-gray-300 p-6 rounded-lg">
+            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
+            <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+          </div>
+        </div>
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+          <div class="border border-gray-300 p-6 rounded-lg">
+            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <circle cx="6" cy="6" r="3"></circle>
+                <circle cx="6" cy="18" r="3"></circle>
+                <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">The Catalyzer</h2>
+            <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+          </div>
+        </div>
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+          <div class="border border-gray-300 p-6 rounded-lg">
+            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Neptune</h2>
+            <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+          </div>
+        </div>
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+          <div class="border border-gray-300 p-6 rounded-lg">
+            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Melanchole</h2>
+            <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+          </div>
+        </div>
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+          <div class="border border-gray-300 p-6 rounded-lg">
+            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Bunker</h2>
+            <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+          </div>
+        </div>
+        <div class="xl:w-1/3 md:w-1/2 p-4">
+          <div class="border border-gray-300 p-6 rounded-lg">
+            <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Ramona Falls</h2>
+            <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+          </div>
+        </div>
+      </div>
+      <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+    </div>
+  </section> -->
+
+  
+
+  <!-- <section class="text-gray-700 body-font overflow-hidden border-t border-gray-200">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap">
+      <div class="lg:w-1/4 mt-48 hidden lg:block">
+        <div class="mt-px border-t border-gray-300 border-b border-l rounded-tl-lg rounded-bl-lg overflow-hidden">
+          <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start -mt-px">Fingerstache disrupt</p>
+          <p class="text-gray-900 h-12 text-center px-4 flex items-center justify-start">Franzen hashtag</p>
+          <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start">Tilde art party</p>
+          <p class="text-gray-900 h-12 text-center px-4 flex items-center justify-start">Banh mi cornhole</p>
+          <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start">Waistcoat squid hexagon</p>
+          <p class="text-gray-900 h-12 text-center px-4 flex items-center justify-start">Pinterest occupy authentic</p>
+          <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start">Brooklyn helvetica</p>
+          <p class="text-gray-900 h-12 text-center px-4 flex items-center justify-start">Long Feature Two</p>
+          <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start">Feature One</p>
+        </div>
+      </div>
+      <div class="flex lg:w-3/4 w-full flex-wrap lg:border border-gray-300 rounded-lg">
+        <div class="lg:w-1/3 lg:mt-px w-full mb-10 lg:mb-0 border-2 border-gray-300 lg:border-none rounded-lg lg:rounded-none">
+          <div class="px-2 text-center h-48 flex flex-col items-center justify-center">
+            <h3 class="tracking-widest">START</h3>
+            <h2 class="text-5xl text-gray-900 font-medium leading-none mb-4 mt-2">Free</h2>
+            <span class="text-sm text-gray-600">Next 3 months</span>
+          </div>
+          <p class="bg-gray-100 text-gray-600 h-12 text-center px-2 flex items-center -mt-px justify-center border-t border-gray-300">Schlitz single-origin</p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="h-12 text-gray-600 px-6 text-center leading-relaxed flex items-center justify-center">Feature</p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <div class="border-t border-gray-300 p-6 text-center rounded-bl-lg">
+            <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">Button
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          </div>
+        </div>
+        <div class="lg:w-1/3 lg:-mt-px w-full mb-10 lg:mb-0 border-2 rounded-lg border-indigo-500 relative">
+          <span class="bg-indigo-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">POPULAR</span>
+          <div class="px-2 text-center h-48 flex flex-col items-center justify-center">
+            <h3 class="tracking-widest">PRO</h3>
+            <h2 class="text-5xl text-gray-900 font-medium flex items-center justify-center leading-none mb-4 mt-2">$38
+              <span class="text-gray-600 text-base ml-1">/mo</span>
+            </h2>
+            <span class="text-sm text-gray-600">Charging $456 per year</span>
+          </div>
+          <p class="bg-gray-100 text-gray-600 h-12 text-center px-2 flex items-center -mt-px justify-center border-t border-gray-300">Schlitz single-origin</p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="h-12 text-gray-600 text-center leading-relaxed flex items-center justify-center">Feature</p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <div class="p-6 text-center border-t border-gray-300">
+            <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">Button
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          </div>
+        </div>
+        <div class="lg:w-1/3 w-full lg:mt-px border-2 border-gray-300 lg:border-none rounded-lg lg:rounded-none">
+          <div class="px-2 text-center h-48 flex flex-col items-center justify-center">
+            <h3 class="tracking-widest">BUSINESS</h3>
+            <h2 class="text-5xl text-gray-900 font-medium flex items-center justify-center leading-none mb-4 mt-2">$54
+              <span class="text-gray-600 text-base ml-1">/mo</span>
+            </h2>
+            <span class="text-sm text-gray-600">Charging $648 per year</span>
+          </div>
+          <p class="bg-gray-100 text-gray-600 h-12 text-center px-2 flex items-center -mt-px justify-center border-t border-gray-300">Schlitz single-origin</p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="h-12 text-gray-600 text-center leading-relaxed flex items-center justify-center">Feature</p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>
+          </p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </p>
+          <div class="p-6 text-center border-t border-gray-300">
+            <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">Button
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block w-8 h-8 text-gray-400 mb-8" viewBox="0 0 975.036 975.036">
+          <path d="M925.036 57.197h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.399 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l36 76c11.6 24.399 40.3 35.1 65.1 24.399 66.2-28.6 122.101-64.8 167.7-108.8 55.601-53.7 93.7-114.3 114.3-181.9 20.601-67.6 30.9-159.8 30.9-276.8v-239c0-27.599-22.401-50-50-50zM106.036 913.497c65.4-28.5 121-64.699 166.9-108.6 56.1-53.7 94.4-114.1 115-181.2 20.6-67.1 30.899-159.6 30.899-277.5v-239c0-27.6-22.399-50-50-50h-304c-27.6 0-50 22.4-50 50v304c0 27.601 22.4 50 50 50h145.5c-1.9 79.601-20.4 143.3-55.4 191.2-27.6 37.8-69.4 69.1-125.3 93.8-25.7 11.3-36.8 41.7-24.8 67.101l35.9 75.8c11.601 24.399 40.501 35.2 65.301 24.399z"></path>
+        </svg>
+        <p class="leading-relaxed text-lg">Edison bulb retro cloud bread echo park, helvetica stumptown taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware. Man bun next level coloring book skateboard four loko knausgaard. Kitsch keffiyeh master cleanse direct trade indigo juice before they sold out gentrify plaid gastropub normcore XOXO 90's pickled cindigo jean shorts. Slow-carb next level shoindigoitch ethical authentic, yr scenester sriracha forage franzen organic drinking vinegar.</p>
+        <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+        <h2 class="text-gray-900 font-medium title-font tracking-wider text-sm">HOLDEN CAULFIELD</h2>
+        <p class="text-gray-500">Senior Product Designer</p>
+      </div>
+    </div>
+  </section> -->
+  
+  <!-- <section class="text-gray-700 body-font relative">
+    <div class="absolute inset-0 bg-gray-300">
+      <iframe width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="map" scrolling="no" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=%C4%B0zmir+(My%20Business%20Name)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.4);"></iframe>
+    </div>
+    <div class="container px-5 py-24 mx-auto flex">
+      <div class="lg:w-1/3 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10">
+        <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Feedback</h2>
+        <p class="leading-relaxed mb-5 text-gray-600">Post-ironic portland shabby chic echo park, banjo fashion axe</p>
+        <input class="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4" placeholder="Email" type="email">
+        <textarea class="bg-white rounded border border-gray-400 focus:outline-none h-32 focus:border-indigo-500 text-base px-4 py-2 mb-4 resize-none" placeholder="Message"></textarea>
+        <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+        <p class="text-xs text-gray-500 mt-3">Chicharrones blog helvetica normcore iceland tousled brook viral artisan.</p>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
     <div class="flex max-w-[980px] flex-col items-start gap-2">
       <h1
         class="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl"
@@ -83,5 +1038,5 @@ let GGBLU = await fetchClanInfo(2);
         GitHub
       </a>
     </div>
-  </section>
-</BaseLayout>
+  </section> -->
+</BaseLayoutGGRED>

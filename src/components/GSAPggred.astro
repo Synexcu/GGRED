@@ -1,0 +1,117 @@
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+    // import { matchMedia } from "gsap/matchMedia";
+
+    // onEnter - scrolling down, start meets scroller-start
+    // onLeave - scrolling down, end meets scroller-end
+    // onEnterBack - scrolling up, end meets scroller-end
+    // onLeaveBack - scrolling up, start meets scroller-start
+
+    let mm = gsap.matchMedia();
+    gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollToPlugin)
+
+
+    mm.add("(min-width: 320px)", () => {
+        //CLAN TITLE ==================================
+        let ct = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.clantitle',
+                start: "top bottom",
+                end: "bottom top",
+                markers: true,
+                toggleActions: "restart reverse restart reverse",}
+            })
+        ct.to(".clantitle", {
+            translateY: 0,
+            duration: 1,
+            opacity: 1,
+        })
+
+        //WELCOME PAGE ==================================
+        let welcomet = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.welcometitle',
+                start: "top bottom",
+                endTrigger: ".welcomequote",
+                end: "bottom top",
+                markers: true,
+                toggleActions: "restart reverse restart reverse",},
+            defaults: {
+                translateY: 0,
+                duration: 0.6,
+                opacity: 1
+            }
+        })
+        welcomet.to(".welcometitle", {});
+        welcomet.to(".welcomedesc", {}, "<0.2");
+        welcomet.to(".welcomediscord", {}, "<0.2");
+        welcomet.to(".welcomequote", {}, "<0.2");
+
+        //CLAN STAT ==================================
+        let cstat = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.clanstattitle',
+                start: "top bottom",
+                endTrigger: ".clanstatwr",
+                end: "bottom top",
+                markers: true,
+                toggleActions: "restart reverse restart reverse",},
+            defaults: {
+                // translateY: 0,
+                duration: 0.5,
+                opacity: 1
+            }
+        })
+        cstat.to(".clanstattitle", {translateY: 0});
+        cstat.to(".clanstatquote", {translateY: 0}, ">0.1");
+        cstat.to(".clanstatbar", {scaleX: 1, duration: 0.7}, "<0.3");
+        cstat.to(".clanstatdate", {translateY: 0, duration: 0.6}, "<0.2");
+        cstat.to(".clanstatmember", {translateY: 0, duration: 0.6}, "<0.2");
+        cstat.to(".clanstatrank", {translateY: 0, duration: 0.6}, "<0.2");
+        cstat.to(".clanstatwr", {translateY: 0, duration: 0.6}, "<0.2")
+
+        //OUR TEAM ==================================
+        let teams = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.teamtitle',
+                start: "top bottom",
+                endTrigger: ".cardRecruit-3",
+                // endTrigger: ".cardRecruit-11",
+                end: "bottom top",
+                markers: true,
+                toggleActions: "restart reverse restart reverse",},
+            defaults: {
+                // translateY: 0,
+                duration: 0.8,
+                opacity: 1,
+            }
+        })
+        teams.to(".teamtitle", {translateY: 0});
+        teams.to(".teamtxt", {translateY: 0}, ">0.1");
+
+        teams.to(".cardCommand", {rotateX: 0}, "<0.3");
+
+        teams.to(".cardExec-1", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-6", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardRecruit-1", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-6", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-7", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-8", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-9", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-10", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-11", {rotateX: 0}, "<0.2");
+
+    })
+</script>
