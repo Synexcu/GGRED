@@ -4,10 +4,24 @@
     import { ScrollToPlugin } from "gsap/ScrollToPlugin";
     // import { matchMedia } from "gsap/matchMedia";
 
+    import { fetchClanInfo } from '@/pages/api/clanReq.ts';
+
+    // let GGRED = await fetchClanInfo(1);
+    // let GGBLU = await fetchClanInfo(2);
+
+    // const filteredMembersExec = Object.entries(GGRED!.members).filter(
+    //     ([id, member]) => member.role === 'executive_officer'
+    // );
+
+    // const filteredMembersRecruit = Object.entries(GGRED!.members).filter(
+    //     ([id, member]) => member.role === 'recruitment_officer'
+    // );
+
     // onEnter - scrolling down, start meets scroller-start
     // onLeave - scrolling down, end meets scroller-end
     // onEnterBack - scrolling up, end meets scroller-end
     // onLeaveBack - scrolling up, start meets scroller-start
+   
 
     let mm = gsap.matchMedia();
     gsap.registerPlugin(ScrollTrigger)
@@ -58,7 +72,7 @@
                 endTrigger: ".clanstatwr",
                 end: "bottom top",
                 // markers: true,
-                toggleActions: "restart reverse restart reverse",},
+                toggleActions: "play reverse restart reverse",}, //onEnter, onLeave, onEnterBack, and onLeaveBack
             defaults: {
                 // translateY: 0,
                 duration: 0.5,
@@ -78,11 +92,11 @@
             scrollTrigger: {
                 trigger: '.teamtitle',
                 start: "top bottom",
-                // endTrigger: ".cardRecruit-3",
-                endTrigger: ".cardRecruit-11",
+                endTrigger: ".memberendpoint", // .memberendpoint under all fleet member
+                // endTrigger: ".cardCommOfficer-2",
                 end: "bottom top",
                 // markers: true,
-                toggleActions: "restart reverse restart reverse",},
+                toggleActions: "play complete none reset",}, //onEnter, onLeave, onEnterBack, and onLeaveBack
             defaults: {
                 // translateY: 0,
                 duration: 0.8,
@@ -111,7 +125,49 @@
         teams.to(".cardRecruit-8", {rotateX: 0}, "<0.2");
         teams.to(".cardRecruit-9", {rotateX: 0}, "<0.2");
         teams.to(".cardRecruit-10", {rotateX: 0}, "<0.2");
-        teams.to(".cardRecruit-11", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardCommOfficer-1", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-5", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardOfficer-1", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-5", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardMember-1", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-6", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-7", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-8", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-9", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-10", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-11", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-12", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-13", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-14", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-15", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-16", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-17", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-18", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-19", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-20", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-21", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-22", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-23", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-24", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-25", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-26", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-27", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-28", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-29", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-30", {rotateX: 0}, "<0.2");
 
     })
 </script>

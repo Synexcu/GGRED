@@ -74,6 +74,18 @@ const filteredMembersRecruit = Object.entries(GGRED!.members).filter(
     ([id, member]) => member.role === 'recruitment_officer'
 );
 
+const filteredMembersCommOfficer = Object.entries(GGRED!.members).filter(
+    ([id, member]) => member.role === 'commissioned_officer'
+);
+
+const filteredMembersOfficer = Object.entries(GGRED!.members).filter(
+    ([id, member]) => member.role === 'officer'
+);
+
+const filteredMembersMember = Object.entries(GGRED!.members).filter(
+    ([id, member]) => member.role === 'private'
+);
+
 const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
 
 ---
@@ -321,7 +333,7 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
                 </div>
                 <div class="flex-grow">
                   <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
-                  <p class="text-foreground/70">{member.role}</p>
+                  <p class="text-foreground/70">Deputy Commander</p>
                 </div>
                   <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
               </div>
@@ -344,13 +356,83 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
                 </div>
                 <div class="flex-grow">
                   <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
-                  <p class="text-foreground/70">{member.role}</p>
+                  <p class="text-foreground/70">Recruiter</p>
                 </div>
                   <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
               </div>
             </div>
           ))}
         </div>
+        <!-- COMMISIONED OFFICERS -->
+        <div class="flex flex-wrap -m-2 mb-10">
+          {filteredMembersCommOfficer.map(([id, member], index) => (
+            <div key!={id} class=`cardCommOfficer-${index + 1} card opacity-0 p-2 lg:w-1/3 md:w-1/2 w-full`>
+              <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                <div class="flex object-cover object-center items-center content-center justify-center flex-shrink-0 mr-4 rounded-full w-16 h-16">
+                  <Image
+                  src={"/rank_commofficer.png"}
+                  class="flex"
+                  width={37}
+                  height={37}
+                  alt="Rank Commisioned Officer"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
+                  <p class="text-foreground/70">Commissioned Officer</p>
+                </div>
+                  <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <!-- LINE OFFICER -->
+        <div class="flex flex-wrap -m-2 mb-10">
+          {filteredMembersOfficer.map(([id, member], index) => (
+            <div key!={id} class=`cardOfficer-${index + 1} card opacity-0 p-2 lg:w-1/3 md:w-1/2 w-full`>
+              <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                <div class="flex object-cover object-center items-center content-center justify-center flex-shrink-0 mr-4 rounded-full w-16 h-16">
+                  <Image
+                  src={"/rank_officer.png"}
+                  class="flex"
+                  width={37}
+                  height={37}
+                  alt="Rank Private"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
+                  <p class="text-foreground/70">Line Officer</p>
+                </div>
+                  <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <!-- MEMBERS -->
+        <div class="flex flex-wrap -m-2 mb-10">
+          {filteredMembersMember.map(([id, member], index) => (
+            <div key!={id} class=`cardMember-${index + 1} card opacity-0 p-2 lg:w-1/3 md:w-1/2 w-full`>
+              <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+                <div class="flex object-cover object-center items-center content-center justify-center flex-shrink-0 mr-4 rounded-full w-16 h-16">
+                  <Image
+                  src={"/rank_member.png"}
+                  class="flex"
+                  width={37}
+                  height={37}
+                  alt="Rank Private"
+                  />
+                </div>
+                <div class="flex-grow">
+                  <h2 class="text-foreground title-font font-medium">{member.account_name}</h2>
+                  <p class="text-foreground/70">Midshipman</p>
+                </div>
+                  <p class="text-xs hidden min-[425px]:inline-block">Joined at: <br /> {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <a class="memberendpoint hidden"></a>
       </div>
     <!-- </div> -->
   </section>
@@ -447,195 +529,17 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
     </div>
   </section> -->
 
-  <!-- <section class="container grid items-center gap-8 pb-8 pt-6 md:py-10">
-    <h1
-    class="text-3xl font-extrabold leading-tight tracking-tighter text-center md:text-4xl"
-    >
-    Our Members:
-    </h1>
-    <p>
-      {GGRED ? (
-        <div>
-            <h2>{GGRED?.name}</h2>
-            <p>Tag: {GGRED?.tag}</p>
-            <p>Leader: {GGRED?.leader_name}</p>
-            <p>Members: {GGRED?.members_count}</p>
-            <p>Members:</p>
-            <ul>
-                {filteredMembersExec.map(([id, member]) => (
-                    <li key!={id} class="member">
-                        <strong>{member.account_name}</strong> ({member.role})
-                        <p>Joined at: {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
-                    </li>
-                ))}
-            </ul>
-            <ul>
-            </ul>
-        </div>
-    ) : (
-        <p>Failed to load clan data.</p>
-    )}
-    </p>
-
-    <p>
-      {GGRED ? (
-        <div>
-            <h2>{GGRED?.name}</h2>
-            <p>Tag: {GGRED?.tag}</p>
-            <p>Leader: {GGRED?.leader_name}</p>
-            <p>Members: {GGRED?.members_count}</p>
-            <p>Members:</p>
-            <ul>
-                {filteredMembersRecruit.map(([id, member]) => (
-                    <li key!={id} class="member">
-                        <strong>{member.account_name}</strong> ({member.role})
-                        <p>Joined at: {new Date(member.joined_at * 1000).toLocaleDateString()}</p>
-                    </li>
-                ))}
-            </ul>
-            <ul>
-            </ul>
-        </div>
-    ) : (
-        <p>Failed to load clan data.</p>
-    )}
-    </p>
-  </section> -->
-
-  <section class="text-gray-700 body-font border-t border-gray-200 snap-center">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-col text-center w-full mb-20">
-        <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">HALL OF FAME</h2>
-        <h1 class="sm:text-3xl text-2xl font-medium title-font text-foreground/90">Huge Thanks To These Contributors</h1>
-      </div>
-      <div class="flex flex-wrap -m-4">
-        <div class="p-4 w-full md:w-1/3">
-          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-            <div class="flex items-center mb-3">
-              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg> -->
-                <!-- <div class="overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg"> -->
-                    <Image
-                    src={"/cont_techy_discord.png"}
-                    class="flex"
-                    width={256}
-                    height={256}
-                    alt="Discord Profile"
-                    class="rounded-full overflow-hidden"
-                    />
-                  <!-- </div> -->
-              </div>
-              <h2 class="text-gray-900 text-lg title-font font-medium">Techy</h2>
-            </div>
-            <div class="flex-grow">
-              <p class="leading-relaxed text-base">Uses lots of his time to teach the members of our clan to help improve as a player, teaching strategies for competitive Clan Battles, and more.</p>
-              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a> -->
-            </div>
-          </div>
-        </div>
-        <div class="p-4 w-full md:w-1/3">
-          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-            <div class="flex items-center mb-3">
-              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg> -->
-                <Image
-                    src={"/cont_razor_discord.gif"}
-                    class="flex"
-                    width={256}
-                    height={256}
-                    alt="Discord Profile"
-                    class="rounded-full overflow-hidden"
-                    />
-              </div>
-              <h2 class="text-gray-900 text-lg title-font font-medium">Razer</h2>
-            </div>
-            <div class="flex-grow">
-              <p class="leading-relaxed text-base">Supports our clan's growth.</p>
-              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a> -->
-            </div>
-          </div>
-        </div>
-        <div class="p-4 w-full md:w-1/3">
-          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-            <div class="flex items-center mb-3">
-              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                  <circle cx="6" cy="6" r="3"></circle>
-                  <circle cx="6" cy="18" r="3"></circle>
-                  <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                </svg> -->
-                <Image
-                    src={"/cont_shino_discord_2.png"}
-                    class="flex"
-                    width={256}
-                    height={256}
-                    alt="Discord Profile"
-                    class="rounded-full overflow-hidden"
-                    />
-              </div>
-              <h2 class="text-gray-900 text-lg title-font font-medium">Shino</h2>
-            </div>
-            <div class="flex-grow">
-              <p class="leading-relaxed text-base">Helped our clan learn more about clan battles since Day 1.</p>
-              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a> -->
-            </div>
-          </div>
-        </div>
-        <div class="p-4 w-full md:w-1/3">
-          <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col">
-            <div class="flex items-center mb-3">
-              <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
-                <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                  <circle cx="6" cy="6" r="3"></circle>
-                  <circle cx="6" cy="18" r="3"></circle>
-                  <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                </svg> -->
-                <Image
-                    src={"/cont_oxy_discord.png"}
-                    class="flex"
-                    width={256}
-                    height={256}
-                    alt="Discord Profile"
-                    class="rounded-full overflow-hidden"
-                    />
-              </div>
-              <h2 class="text-gray-900 text-lg title-font font-medium">Oxyphen</h2>
-            </div>
-            <div class="flex-grow">
-              <p class="leading-relaxed text-base">Former OG member. Uses his current experience to support our clan and improve.</p>
-              <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+  <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
       <div class="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
-        <img alt="feature" class="object-cover object-center h-full w-full" src="https://dummyimage.com/600x600/edf2f7/a5afbd">
+        <!-- <img alt="feature" class="object-cover object-center h-full w-full" src="https://dummyimage.com/600x600/edf2f7/a5afbd"> -->
+        <Image
+        src={"/GGRED2.png"}
+        class="flex object-cover object-center h-full w-full"
+        width={512}
+        height={512}
+        alt="Mascot"
+        />
       </div>
       <div class="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">
         <div class="flex flex-col mb-10 lg:items-start items-center">
@@ -691,9 +595,9 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
 
-  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+  <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto">
       <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Pitchfork Kickstarter Taxidermy</h1>
@@ -772,11 +676,11 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
       </div>
       <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
     </div>
-  </section> -->
+  </section>
 
   
 
-  <!-- <section class="text-gray-700 body-font overflow-hidden border-t border-gray-200">
+  <section class="text-gray-700 body-font overflow-hidden border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
       <div class="lg:w-1/4 mt-48 hidden lg:block">
         <div class="mt-px border-t border-gray-300 border-b border-l rounded-tl-lg rounded-bl-lg overflow-hidden">
@@ -975,9 +879,9 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
 
-  <!-- <section class="text-gray-700 body-font border-t border-gray-200">
+  <section class="text-gray-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto">
       <div class="xl:w-1/2 lg:w-3/4 w-full mx-auto text-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block w-8 h-8 text-gray-400 mb-8" viewBox="0 0 975.036 975.036">
@@ -989,9 +893,9 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
         <p class="text-gray-500">Senior Product Designer</p>
       </div>
     </div>
-  </section> -->
+  </section>
   
-  <!-- <section class="text-gray-700 body-font relative">
+  <section class="text-gray-700 body-font relative">
     <div class="absolute inset-0 bg-gray-300">
       <iframe width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" title="map" scrolling="no" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=%C4%B0zmir+(My%20Business%20Name)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.4);"></iframe>
     </div>
@@ -1005,9 +909,9 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
         <p class="text-xs text-gray-500 mt-3">Chicharrones blog helvetica normcore iceland tousled brook viral artisan.</p>
       </div>
     </div>
-  </section> -->
+  </section>
 
-  <!-- <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+  <section class="container grid items-center gap-6 pb-8 pt-6 md:py-10">
     <div class="flex max-w-[980px] flex-col items-start gap-2">
       <h1
         class="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl"
@@ -1038,5 +942,5 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
         GitHub
       </a>
     </div>
-  </section> -->
+  </section>
 </BaseLayoutGGRED>

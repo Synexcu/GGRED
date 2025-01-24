@@ -2,6 +2,7 @@
 import HeadSEO from '@/components/HeadSEO.astro'
 import Footer from '@/components/Footer.astro'
 import Header from '@/components/Header.astro'
+import Contribution from '@/components/Contribution.astro'
 import GSAP from '@/components/GSAPggred.astro'
 
 interface Props {
@@ -23,6 +24,7 @@ const { title, description, ogImage } = Astro.props
       <main class="flex-auto">
         <Header />
         <slot />
+        <Contribution />
         <Footer />
       </main>
     </div>
