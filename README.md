@@ -28,6 +28,12 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
     > [!NOTE]
     > Alliances page development is still underway. It is still not yet available for view.
 
+- 25/01/2024 (GMT+8)
+    - Renamed commander roles
+    - Added Commisioned Officers, Line Officers, and Privates to the lineup (used to only be Commander and Deputy Commanders)
+    - Fixed animation for member cards
+    - Upcoming: NA branch of the clan "CIMA" for future update.
+
 ## Contribution
 
 Very huge thanks for AREA44 for the Astro template. Go check out his repository: https://github.com/AREA44/astro-shadcn-ui-template
