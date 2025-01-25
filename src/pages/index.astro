@@ -88,7 +88,8 @@ const filteredMembersMember = Object.entries(GGRED!.members).filter(
 
 const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
 
-const pageOgImage = new URL('GGCO.png', Astro.site) // Replace with your actual image path
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const pageOgImage = new URL('GGCO.png', canonicalURL) // Replace with your actual image path
 
 ---
 <BaseLayoutGGRED
