@@ -8,7 +8,7 @@ import GSAP from '@/components/GSAPggred.astro'
 interface Props {
   title?: string | undefined
   description?: string | undefined
-  ogImage?: URL | undefined
+  ogImage?: string | URL | undefined
 }
 
 const { title, description, ogImage } = Astro.props
@@ -16,7 +16,7 @@ const { title, description, ogImage } = Astro.props
 
 <html lang="en" class="scroll-smooth">
   <head>
-    <HeadSEO title={title} description={description} ogImage={ogImage} />
+    <HeadSEO title={title} description={description} ogImage={ogImage ? new URL(ogImage.toString(), Astro.site) : undefined} />
     <GSAP />
   </head>
   <body class="min-h-screen bg-background font-sans antialiased">
