@@ -40,7 +40,7 @@ export interface ApiResponse {
     data: Record<string, ClanData>;
 }
 
-export async function fetchClanInfo(clanID : number): Promise<ClanData | null> {
+export async function fetchClanInfo(region: string, clanID : number): Promise<ClanData | null> {
     let clanIdToUse, appIdToUse;
 
     if (clanID === 1) {
@@ -56,7 +56,23 @@ export async function fetchClanInfo(clanID : number): Promise<ClanData | null> {
         throw new Error('Invalid clan ID provided');
     }
 
-    const url = `https://api.worldofwarships.asia/wows/clans/info/?application_id=${appIdToUse}&clan_id=${clanIdToUse}&language=en&extra=members`;
+    let domain : string;
+
+    switch (region) {
+        case 'asia':
+            domain = 'asia';
+            break;
+        case 'eu':
+            domain = 'eu';
+            break;
+        case 'na':
+            domain = 'com';
+            break;
+        default:
+      throw new Error('Invalid region specified');
+    }
+
+    const url = `https://api.worldofwarships.${domain}/wows/clans/info/?application_id=${appIdToUse}&clan_id=${clanIdToUse}&language=en&extra=members`;
     try {
         const response = await fetch(url);
         if (!response.ok) {

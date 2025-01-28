@@ -6,6 +6,9 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
 
 - [GGRED page](https://ggred.vercel.app/ggred): A GGRED World of Warships clan page featuring our main clan GGRED.
 - [GGBLU page](https://ggred.vercel.app/ggblu): A GGBLU World of Warships clan page featuring our main clan's extension; GGBLU.
+- [CIMA page](https://ggred.vercel.app/cima): North America branch of GG co. Clan.
+> [!NOTE]
+> CIMA page development is still underway. It is still not yet available for view.
 - [Alliances page](https://ggred.vercel.app/alliances/): An Alliance World of Warships clan page featuring our Alliances' page who has contributed to our (GGRED) clan development.
 > [!NOTE]
 > Alliances page development is still underway. It is still not yet available for view.
@@ -19,20 +22,14 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
 
 ## Changelogs
 
-- 06/06/2024 (GMT+7)
-    - Added GGBLU and GGRED page
-    - SSR attempt
-    - Animated HTML contents using [GSAP](https://gsap.com/)
-    - Customized each clan's theme
-    - Added Alliances button
-    > [!NOTE]
-    > Alliances page development is still underway. It is still not yet available for view.
+- 28/01/2024 (GMT+8)
+    - Added CIMA content and clan API
+    - Added Clan Infrastructure comparison table
+    - Improved page responsiveness
+    - Added Infrastructure icon
 
-- 25/01/2024 (GMT+8)
-    - Renamed commander roles
-    - Added Commisioned Officers, Line Officers, and Privates to the lineup (used to only be Commander and Deputy Commanders)
-    - Fixed animation for member cards
-    - Upcoming: NA branch of the clan "CIMA" for future update.
+> [!NOTE]
+> Check [Changelogs.md](https://github.com/Synexcu/GGRED/blob/master/Changelogs.md) for past updates.
 
 ## Contribution
 

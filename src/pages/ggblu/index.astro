@@ -13,8 +13,9 @@ import { FaDiscord } from "react-icons/fa";
 import { fetchClanInfo } from '@/pages/api/clanReq.ts';
 import { fetchClanWebCBInfo } from '@/pages/api/clanWebReq.ts'
 
-let GGRED = await fetchClanInfo(1);
-let GGBLU = await fetchClanInfo(2);
+let GGRED = await fetchClanInfo("asia", 1);
+let GGBLU = await fetchClanInfo("asia", 2);
+let CIMA = await fetchClanInfo("na", 3);
 
 let GGREDWebCBInfo = await fetchClanWebCBInfo(1);
 let GGBLUWebCBInfo = await fetchClanWebCBInfo(2);

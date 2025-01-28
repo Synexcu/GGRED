@@ -12,12 +12,30 @@ import { FaDiscord } from "react-icons/fa";
 
 import { fetchClanInfo } from '@/pages/api/clanReq.ts';
 import { fetchClanWebCBInfo } from '@/pages/api/clanWebReq.ts'
+import { processClanModifiers } from '@/pages/api/clanWebReq.ts'
 
-let GGRED = await fetchClanInfo(1);
-let GGBLU = await fetchClanInfo(2);
+let GGRED = await fetchClanInfo("asia", 1);
+let GGBLU = await fetchClanInfo("asia", 2);
+let CIMA = await fetchClanInfo("na", 3);
+
 
 let GGREDWebCBInfo = await fetchClanWebCBInfo(1);
 let GGBLUWebCBInfo = await fetchClanWebCBInfo(2);
+
+let processedDataGGRED: any[] = [];
+let processedDataGGBLU: any[] = [];
+let processedDataCIMA: any[] = [];
+
+
+// Fetch the clan data at build time (or runtime if needed)
+try {
+  processedDataGGRED = await processClanModifiers("asia", 2000008080); // Replace with the actual clan ID
+  processedDataGGBLU = await processClanModifiers("asia", 2000020516); // Replace with the actual clan ID
+  processedDataCIMA = await processClanModifiers("na", 1000109483); // Replace with the actual clan ID
+
+} catch (error) {
+  console.error("Failed to fetch clan data:", error);
+}
 
 let GGREDiconColor = "#Ef4444"
 let GGBLUiconColor = "#3b82f6"
@@ -530,7 +548,7 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
     </div>
   </section> -->
 
-  <section class="text-gray-700 body-font border-t border-gray-200">
+  <section class="text-foreground-700 body-font border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
       <div class="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
         <!-- <img alt="feature" class="object-cover object-center h-full w-full" src="https://dummyimage.com/600x600/edf2f7/a5afbd"> -->
@@ -683,7 +701,7 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
 
   <section class="text-gray-700 body-font overflow-hidden border-t border-gray-200">
     <div class="container px-5 py-24 mx-auto flex flex-wrap">
-      <div class="lg:w-1/4 mt-48 hidden lg:block">
+      <!-- <div class="lg:w-1/4 mt-48 hidden lg:block">
         <div class="mt-px border-t border-gray-300 border-b border-l rounded-tl-lg rounded-bl-lg overflow-hidden">
           <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start -mt-px">Fingerstache disrupt</p>
           <p class="text-gray-900 h-12 text-center px-4 flex items-center justify-start">Franzen hashtag</p>
@@ -695,188 +713,196 @@ const leagueInfo = leagueTranslator(GGREDWebCBInfo!.max_position.league)
           <p class="text-gray-900 h-12 text-center px-4 flex items-center justify-start">Long Feature Two</p>
           <p class="bg-gray-100 text-gray-900 h-12 text-center px-4 flex items-center justify-start">Feature One</p>
         </div>
+      </div> -->
+      <div class="lg:w-1/4 mt-48 hidden lg:block">
+        <div class="mt-px border-t border-gray-300 border-b border-l rounded-tl-lg rounded-bl-lg overflow-hidden">
+          {processedDataGGRED.map((building, index) => (
+            <p
+              class={`${
+                index % 2 === 0 ? 'bg-foreground/15 text-foreground' : 'text-foreground'
+              } lg:h-20 min-[1346px]:h-16 min-[1600px]:h-14 px-4 flex items-center justify-start`}
+            >
+              <!-- Add the SVG dynamically -->
+              <img
+                src={`/clan_structures/view-supply-building-${building.name}.svg`}
+                alt={building.translatedName}
+                class="w-6 h-6 mr-2"
+              />
+              {building.translatedName}
+            </p>
+          ))}
+        </div>
       </div>
+      
+      
+      <!-- GGRED COMPETITIVE -->
       <div class="flex lg:w-3/4 w-full flex-wrap lg:border border-gray-300 rounded-lg">
         <div class="lg:w-1/3 lg:mt-px w-full mb-10 lg:mb-0 border-2 border-gray-300 lg:border-none rounded-lg lg:rounded-none">
           <div class="px-2 text-center h-48 flex flex-col items-center justify-center">
-            <h3 class="tracking-widest">START</h3>
-            <h2 class="text-5xl text-gray-900 font-medium leading-none mb-4 mt-2">Free</h2>
-            <span class="text-sm text-gray-600">Next 3 months</span>
+            <h3 class="tracking-widest text-foreground">ASIA CLAN</h3>
+            <h2 class=`text-${GGREDtextColor}-500 text-5xl font-medium leading-none mb-4 mt-2`>GGRED</h2>
+            <span class="text-sm text-foreground">Competitive</span>
           </div>
-          <p class="bg-gray-100 text-gray-600 h-12 text-center px-2 flex items-center -mt-px justify-center border-t border-gray-300">Schlitz single-origin</p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="h-12 text-gray-600 px-6 text-center leading-relaxed flex items-center justify-center">Feature</p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
+          <!-- Loop through processedDataGGRED -->
+          {processedDataGGRED.map((building, index) => (
+            <div class={`h-auto lg:h-20 min-[1346px]:h-16 min-[1600px]:h-14 flex flex-col items-start justify-center px-4 py-2 ${
+              index % 2 === 0 ? 'bg-foreground/15 text-foreground' : 'text-foreground'
+            }`}>
+              <!-- Add SVG dynamically -->
+              <div class="flex items-center max-lg:mb-1 lg:hidden">
+                <img
+                  src={`/clan_structures/view-supply-building-${building.name}.svg`}
+                  alt={building.translatedName}
+                  class="w-6 h-6 mr-2"
+                />
+                <h3 class="font-semibold text-lg">{building.translatedName}</h3>
+              </div>
+
+              <!-- If building is not built yet (level 0), show a default SVG -->
+              {building.level === 0 && !["Auxiliary Fleet", "Battle Fleet at Anchor", "Rostral Column"].includes(building.translatedName) && (
+                <p class="text-gray-600 text-center h-12 flex items-center justify-center self-center">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                  </svg>
+                </p>
+              )}
+
+              <!-- Display bonus values -->
+              <ul class="text-sm space-y-1 ml-8">
+                {building.activeModifiers.map((modifier: unknown) => (
+                  <li class="flex items-start">
+                    <!-- Bonus description -->
+                    <span class="text-foreground">{modifier}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           <div class="border-t border-gray-300 p-6 text-center rounded-bl-lg">
-            <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">Button
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </button>
-            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+            <a href="/ggred">
+              <button class=`flex items-center mt-auto text-white bg-${GGREDtextColor}-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-${GGREDtextColor}-600 rounded`>View GGRED
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </a>
+            <p class="text-xs text-foreground/80 mt-3"> {GGRED?.name} </p>
           </div>
         </div>
         <div class="lg:w-1/3 lg:-mt-px w-full mb-10 lg:mb-0 border-2 rounded-lg border-indigo-500 relative">
-          <span class="bg-indigo-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">POPULAR</span>
+          <span class="bg-indigo-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">ACTIVELY RECRUITING!</span>
           <div class="px-2 text-center h-48 flex flex-col items-center justify-center">
-            <h3 class="tracking-widest">PRO</h3>
-            <h2 class="text-5xl text-gray-900 font-medium flex items-center justify-center leading-none mb-4 mt-2">$38
-              <span class="text-gray-600 text-base ml-1">/mo</span>
+            <h3 class="tracking-widest text-foreground">ASIA CLAN</h3>
+            <h2 class=`text-5xl text-${GGBLUtextColor}-500 font-medium flex items-center justify-center leading-none mb-4 mt-2`>GGBLU
+              <!-- <span class="text-gray-600 text-base ml-1">/mo</span> -->
             </h2>
-            <span class="text-sm text-gray-600">Charging $456 per year</span>
+            <span class="text-sm text-foreground">Semi-competitive</span>
           </div>
-          <p class="bg-gray-100 text-gray-600 h-12 text-center px-2 flex items-center -mt-px justify-center border-t border-gray-300">Schlitz single-origin</p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="h-12 text-gray-600 text-center leading-relaxed flex items-center justify-center">Feature</p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
+          <!-- Loop through processedDataGGBLU -->
+          {processedDataGGBLU.map((building, index) => (
+            <div class={`h-auto lg:h-20 min-[1346px]:h-16 min-[1600px]:h-14 flex flex-col items-start justify-center px-4 py-2 ${
+              index % 2 === 0 ? 'bg-foreground/15 text-foreground' : 'text-foreground'
+            }`}>
+              <!-- Add SVG dynamically -->
+              <div class="flex items-center max-lg:mb-1 lg:hidden">
+                <img
+                  src={`/clan_structures/view-supply-building-${building.name}.svg`}
+                  alt={building.translatedName}
+                  class="w-6 h-6 mr-2"
+                />
+                <h3 class="font-semibold text-lg">{building.translatedName}</h3>
+              </div>
+
+              <!-- If building is not built yet (level 0), show a default SVG -->
+              {building.level === 0 && !["Auxiliary Fleet", "Battle Fleet at Anchor", "Rostral Column"].includes(building.translatedName) && (
+                <p class="text-gray-600 text-center h-12 flex items-center justify-center self-center">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                  </svg>
+                </p>
+              )}
+
+              <!-- Display bonus values -->
+              <ul class="text-sm space-y-1 ml-8">
+                {building.activeModifiers.map((modifier: unknown) => (
+                  <li class="flex items-start">
+                    <!-- Bonus description -->
+                    <span class="text-foreground">{modifier}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           <div class="p-6 text-center border-t border-gray-300">
-            <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">Button
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </button>
-            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+            <a href="/ggblu">
+              <button class=`flex items-center mt-auto text-white bg-${GGBLUtextColor}-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-${GGBLUtextColor}-600 rounded`>View GGBLU
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </a>
+            <p class="text-xs text-foreground/80 mt-3"> {GGBLU?.name} </p>
           </div>
         </div>
         <div class="lg:w-1/3 w-full lg:mt-px border-2 border-gray-300 lg:border-none rounded-lg lg:rounded-none">
           <div class="px-2 text-center h-48 flex flex-col items-center justify-center">
-            <h3 class="tracking-widest">BUSINESS</h3>
-            <h2 class="text-5xl text-gray-900 font-medium flex items-center justify-center leading-none mb-4 mt-2">$54
-              <span class="text-gray-600 text-base ml-1">/mo</span>
+            <h3 class="tracking-widest text-foreground">NA CLAN</h3>
+            <h2 class="text-5xl text-foreground font-medium flex items-center justify-center leading-none mb-4 mt-2">CIMA
+              <!-- <span class="text-gray-600 text-base ml-1">/mo</span> -->
             </h2>
-            <span class="text-sm text-gray-600">Charging $648 per year</span>
+            <span class="text-sm text-foreground">North American Branch</span>
           </div>
-          <p class="bg-gray-100 text-gray-600 h-12 text-center px-2 flex items-center -mt-px justify-center border-t border-gray-300">Schlitz single-origin</p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="h-12 text-gray-600 text-center leading-relaxed flex items-center justify-center">Feature</p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <span class="w-5 h-5 inline-flex items-center justify-center bg-gray-500 text-white rounded-full flex-shrink-0">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </span>
-          </p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
+          <!-- Loop through processedDataCIMA -->
+          {processedDataCIMA.map((building, index) => (
+            <div class={`h-auto lg:h-20 min-[1346px]:h-16 min-[1600px]:h-14 flex flex-col items-start justify-center px-4 py-2 ${
+              index % 2 === 0 ? 'bg-foreground/15 text-foreground' : 'text-foreground'
+            }`}>
+              <!-- Add SVG dynamically -->
+              <div class="flex items-center max-lg:mb-1 lg:hidden">
+                <img
+                  src={`/clan_structures/view-supply-building-${building.name}.svg`}
+                  alt={building.translatedName}
+                  class="w-6 h-6 mr-2"
+                />
+                <h3 class="font-semibold text-lg">{building.translatedName}</h3>
+              </div>
+
+              <!-- If building is not built yet (level 0), show a default SVG -->
+              {building.level === 0 && !["Auxiliary Fleet", "Battle Fleet at Anchor", "Rostral Column"].includes(building.translatedName) && (
+                <p class="text-gray-600 text-center h-12 flex items-center justify-center self-center">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12"></path>
+                  </svg>
+                </p>
+              )}
+
+              <!-- Display bonus values -->
+              <ul class="text-sm space-y-1 ml-8">
+                {building.activeModifiers.map((modifier: unknown) => (
+                  <li class="flex items-start">
+                    <!-- Bonus description -->
+                    <span class="text-foreground">{modifier}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <!-- <p class="text-gray-600 text-center h-12 flex items-center justify-center">
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
               <path d="M18 6L6 18M6 6l12 12"></path>
             </svg>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
-          <p class="bg-gray-100 text-gray-600 text-center h-12 flex items-center justify-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5 text-gray-500" viewBox="0 0 24 24">
-              <path d="M18 6L6 18M6 6l12 12"></path>
-            </svg>
-          </p>
+          </p> -->
           <div class="p-6 text-center border-t border-gray-300">
-            <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">Button
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </button>
-            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
-          </div>
+            <a href="/cima">
+              <button class="flex items-center mt-auto text-white bg-indigo-500 border-0 py-2 px-4 w-full focus:outline-none hover:bg-indigo-600 rounded">
+                View CIMA
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </a>
+            <p class="text-xs text-foreground/80 mt-3"> {CIMA?.name} </p>
+          </div>          
         </div>
       </div>
     </div>
