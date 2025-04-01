@@ -15,8 +15,16 @@
 - Fixed animation for member cards
 - Upcoming: NA branch of the clan "CIMA" for future update.
 
-## 28/01/2024 (GMT+8)
+## 28/01/2025 (GMT+8)
 - Added CIMA content and clan API
 - Added Clan Infrastructure comparison table
 - Improved page responsiveness
 - Added Infrastructure icon
+
+## 02/04/2025 (GMT+8)
+- Cleaning up the Home Page of unused templates
+- Added GSAP animation for Clan Infrastructure
+- Hiding Alliances content for now and WIP
+- Added site meta image
+- Revamped footer to describe each page contents better
+- Changed Redacted_Daddy as the GGBLU's quote mascot

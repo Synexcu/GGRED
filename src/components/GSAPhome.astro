@@ -1,0 +1,523 @@
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+    // import { matchMedia } from "gsap/matchMedia";
+
+    import { fetchClanInfo } from '@/pages/api/clanReq.ts';
+
+    // let GGRED = await fetchClanInfo(1);
+    // let GGBLU = await fetchClanInfo(2);
+
+    // const filteredMembersExec = Object.entries(GGRED!.members).filter(
+    //     ([id, member]) => member.role === 'executive_officer'
+    // );
+
+    // const filteredMembersRecruit = Object.entries(GGRED!.members).filter(
+    //     ([id, member]) => member.role === 'recruitment_officer'
+    // );
+
+    // onEnter - scrolling down, start meets scroller-start
+    // onLeave - scrolling down, end meets scroller-end
+    // onEnterBack - scrolling up, end meets scroller-end
+    // onLeaveBack - scrolling up, start meets scroller-start
+   
+
+    let mm = gsap.matchMedia();
+    gsap.registerPlugin(ScrollTrigger)
+    gsap.registerPlugin(ScrollToPlugin)
+
+
+    mm.add("(min-width: 320px)", () => {
+        //CLAN TITLE ==================================
+        let ct = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.clantitle',
+                start: "top bottom",
+                end: "bottom top",
+                // markers: true,
+                toggleActions: "restart reverse restart reverse",}
+            })
+        ct.to(".clantitle", {
+            translateY: 0,
+            duration: 1,
+            opacity: 1,
+        })
+
+        //WELCOME PAGE ==================================
+        let welcomet = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.welcometitle',
+                start: "top bottom",
+                endTrigger: ".welcomequote",
+                end: "bottom top",
+                // markers: true,
+                toggleActions: "restart reverse restart reverse",},
+            defaults: {
+                translateY: 0,
+                duration: 0.6,
+                opacity: 1
+            }
+        })
+        welcomet.to(".welcometitle", {});
+        welcomet.to(".welcomedesc", {}, "<0.2");
+        welcomet.to(".welcomediscord", {}, "<0.2");
+        welcomet.to(".welcomequote", {}, "<0.2");
+
+        //CLAN STAT ==================================
+        let cstat = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.clanstattitle',
+                start: "top bottom",
+                endTrigger: ".clanstatwr",
+                end: "bottom top",
+                // markers: true,
+                toggleActions: "play reverse restart reverse",}, //onEnter, onLeave, onEnterBack, and onLeaveBack
+            defaults: {
+                // translateY: 0,
+                duration: 0.5,
+                opacity: 1
+            }
+        })
+        cstat.to(".clanstattitle", {translateY: 0});
+        cstat.to(".clanstatquote", {translateY: 0}, ">0.1");
+        cstat.to(".clanstatbar", {scaleX: 1, duration: 0.7}, "<0.3");
+        cstat.to(".clanstatdate", {translateY: 0, duration: 0.6}, "<0.2");
+        cstat.to(".clanstatmember", {translateY: 0, duration: 0.6}, "<0.2");
+        cstat.to(".clanstatrank", {translateY: 0, duration: 0.6}, "<0.2");
+        cstat.to(".clanstatwr", {translateY: 0, duration: 0.6}, "<0.2")
+
+        //OUR TEAM ==================================
+        let teams = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.teamtitle',
+                start: "top bottom",
+                endTrigger: ".memberendpoint", // .memberendpoint under all fleet member
+                // endTrigger: ".cardCommOfficer-2",
+                end: "bottom top",
+                // markers: true,
+                toggleActions: "play complete none reset",}, //onEnter, onLeave, onEnterBack, and onLeaveBack
+            defaults: {
+                // translateY: 0,
+                duration: 0.8,
+                opacity: 1,
+            }
+        })
+        teams.to(".teamtitle", {translateY: 0});
+        teams.to(".teamtxt", {translateY: 0}, ">0.1");
+
+        teams.addLabel("cardCommanders");
+        teams.to(".cardCommand", {rotateX: 0}, "<0.3");
+
+        teams.to(".cardExec-1", {rotateX: 0}, "cardCommanders+=0.2");
+        teams.to(".cardExec-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-6", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-7", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-8", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-9", {rotateX: 0}, "<0.2");
+        teams.to(".cardExec-10", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardRecruit-1", {rotateX: 0}, "cardCommanders+=0.4");
+        teams.to(".cardRecruit-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-6", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-7", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-8", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-9", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-10", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-11", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-12", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-13", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-14", {rotateX: 0}, "<0.2");
+        teams.to(".cardRecruit-15", {rotateX: 0}, "<0.2");
+        
+
+        teams.to(".cardCommOfficer-1", {rotateX: 0}, "cardCommanders+=0.6");
+        teams.to(".cardCommOfficer-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-6", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-7", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-8", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-9", {rotateX: 0}, "<0.2");
+        teams.to(".cardCommOfficer-10", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardOfficer-1", {rotateX: 0}, "cardCommanders+=0.8");
+        teams.to(".cardOfficer-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardOfficer-5", {rotateX: 0}, "<0.2");
+
+        teams.to(".cardMember-1", {rotateX: 0}, "cardCommanders+=1.0");
+        teams.to(".cardMember-2", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-3", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-4", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-5", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-6", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-7", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-8", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-9", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-10", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-11", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-12", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-13", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-14", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-15", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-16", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-17", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-18", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-19", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-20", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-21", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-22", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-23", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-24", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-25", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-26", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-27", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-28", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-29", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-30", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-31", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-32", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-33", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-34", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-35", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-36", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-37", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-38", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-39", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-40", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-41", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-42", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-43", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-44", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-45", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-46", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-47", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-48", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-49", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-50", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-51", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-52", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-53", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-54", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-55", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-56", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-57", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-58", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-59", {rotateX: 0}, "<0.2");
+        teams.to(".cardMember-60", {rotateX: 0}, "<0.2");
+
+        //OUR CLANS ==================================
+        let clans = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.clanstitle',
+                start: "top bottom",
+                endTrigger: ".clansendpoint", // .clansendpoint under all clans community
+                // endTrigger: ".cardCommOfficer-2",
+                end: "bottom top",
+                // markers: true,
+                toggleActions: "play complete none reset",}, //onEnter, onLeave, onEnterBack, and onLeaveBack
+            defaults: {
+                // translateY: 0,
+                duration: 0.4,
+                opacity: 1,
+            }
+        })
+        clans.addLabel("section-title");
+        clans.to(".clanstitle", {translateY: 0});
+        clans.to(".clanssubtitle", {translateY: 0, duration: 0.4}, ">0.1");
+
+        clans.addLabel("section-1");
+        clans.to(".building-icon-1", {translateX: 0, duration: 0.5});
+        clans.to(".building-name-1", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-2", {translateX: 0, duration: 0.5}, "section-1+=0.1");
+        clans.to(".building-name-2", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-3", {translateX: 0, duration: 0.5}, "section-1+=0.2");
+        clans.to(".building-name-3", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-4", {translateX: 0, duration: 0.5}, "section-1+=0.3");
+        clans.to(".building-name-4", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-5", {translateX: 0, duration: 0.5}, "section-1+=0.4");
+        clans.to(".building-name-5", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-6", {translateX: 0, duration: 0.5}, "section-1+=0.5");
+        clans.to(".building-name-6", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-7", {translateX: 0, duration: 0.5}, "section-1+=0.6");
+        clans.to(".building-name-7", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-8", {translateX: 0, duration: 0.5}, "section-1+=0.7");
+        clans.to(".building-name-8", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-9", {translateX: 0, duration: 0.5}, "section-1+=0.8");
+        clans.to(".building-name-9", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-10", {translateX: 0, duration: 0.5}, "section-1+=0.9");
+        clans.to(".building-name-10", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-11", {translateX: 0, duration: 0.5}, "section-1+=1.0");
+        clans.to(".building-name-11", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-12", {translateX: 0, duration: 0.5}, "section-1+=1.1");
+        clans.to(".building-name-12", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-13", {translateX: 0, duration: 0.5}, "section-1+=1.2");
+        clans.to(".building-name-13", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".building-icon-14", {translateX: 0, duration: 0.5}, "section-1+=1.3");
+        clans.to(".building-name-14", {translateX: 0, duration: 0.5}, "<0.1");
+
+
+        clans.addLabel("ggred");
+        clans.to(".ggred-region-tag", {translateY: 0, duration: 0.5}, "section-title+=0.8");
+        clans.to(".ggred-tag", {translateY: 0, duration: 0.5}, "<0.1");
+        clans.to(".ggred-subtag", {translateY: 0, duration: 0.5}, "<0.1");
+
+        clans.addLabel("ggred-stat");
+        clans.to(".stat-ggred-building-icon-1", {translateX: 0, duration: 0.5}, "section-1+=0.0");
+        clans.to(".stat-ggred-building-name-1", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-1", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-1", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-2", {translateX: 0, duration: 0.5}, "section-1+=0.1");
+        clans.to(".stat-ggred-building-name-2", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-2", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-2", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-3", {translateX: 0, duration: 0.5}, "section-1+=0.2");
+        clans.to(".stat-ggred-building-name-3", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-3", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-3", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-4", {translateX: 0, duration: 0.5}, "section-1+=0.3");
+        clans.to(".stat-ggred-building-name-4", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-4", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-4", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-5", {translateX: 0, duration: 0.5}, "section-1+=0.4");
+        clans.to(".stat-ggred-building-name-5", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-5", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-5", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-6", {translateX: 0, duration: 0.5}, "section-1+=0.5");
+        clans.to(".stat-ggred-building-name-6", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-6", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-6", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-7", {translateX: 0, duration: 0.5}, "section-1+=0.6");
+        clans.to(".stat-ggred-building-name-7", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-7", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-7", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-8", {translateX: 0, duration: 0.5}, "section-1+=0.7");
+        clans.to(".stat-ggred-building-name-8", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-8", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-8", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-9", {translateX: 0, duration: 0.5}, "section-1+=0.8");
+        clans.to(".stat-ggred-building-name-9", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-9", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-9", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-10", {translateX: 0, duration: 0.5}, "section-1+=0.9");
+        clans.to(".stat-ggred-building-name-10", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-10", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-10", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-11", {translateX: 0, duration: 0.5}, "section-1+=1.0");
+        clans.to(".stat-ggred-building-name-11", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-11", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-11", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-12", {translateX: 0, duration: 0.5}, "section-1+=1.1");
+        clans.to(".stat-ggred-building-name-12", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-12", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-12", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-13", {translateX: 0, duration: 0.5}, "section-1+=1.2");
+        clans.to(".stat-ggred-building-name-13", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-13", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-13", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggred-building-icon-14", {translateX: 0, duration: 0.5}, "section-1+=1.3");
+        clans.to(".stat-ggred-building-name-14", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-bonus-14", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggred-building-default-14", {translateX: 0, duration: 0.5}, "<0.1");
+
+
+        clans.addLabel("ggblu");
+        clans.to(".ggblu-notetag", {translateY: 0, duration: 0.5}, "section-title+=1.0");
+        clans.to(".ggblu-region-tag", {translateY: 0, duration: 0.5}, "section-title+=1.0");
+        clans.to(".ggblu-tag", {translateY: 0, duration: 0.5}, "<0.1");
+        clans.to(".ggblu-subtag", {translateY: 0, duration: 0.5}, "<0.1");
+
+        clans.addLabel("ggblu-stat");
+        clans.to(".stat-ggblu-building-icon-1", {translateX: 0, duration: 0.5}, "section-1+=0.2");
+        clans.to(".stat-ggblu-building-name-1", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-1", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-1", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-2", {translateX: 0, duration: 0.5}, "section-1+=0.3");
+        clans.to(".stat-ggblu-building-name-2", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-2", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-2", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-3", {translateX: 0, duration: 0.5}, "section-1+=0.4");
+        clans.to(".stat-ggblu-building-name-3", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-3", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-3", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-4", {translateX: 0, duration: 0.5}, "section-1+=0.5");
+        clans.to(".stat-ggblu-building-name-4", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-4", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-4", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-5", {translateX: 0, duration: 0.5}, "section-1+=0.6");
+        clans.to(".stat-ggblu-building-name-5", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-5", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-5", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-6", {translateX: 0, duration: 0.5}, "section-1+=0.7");
+        clans.to(".stat-ggblu-building-name-6", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-6", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-6", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-7", {translateX: 0, duration: 0.5}, "section-1+=0.8");
+        clans.to(".stat-ggblu-building-name-7", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-7", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-7", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-8", {translateX: 0, duration: 0.5}, "section-1+=0.9");
+        clans.to(".stat-ggblu-building-name-8", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-8", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-8", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-9", {translateX: 0, duration: 0.5}, "section-1+=1.0");
+        clans.to(".stat-ggblu-building-name-9", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-9", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-9", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-10", {translateX: 0, duration: 0.5}, "section-1+=1.1");
+        clans.to(".stat-ggblu-building-name-10", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-10", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-10", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-11", {translateX: 0, duration: 0.5}, "section-1+=1.2");
+        clans.to(".stat-ggblu-building-name-11", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-11", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-11", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-12", {translateX: 0, duration: 0.5}, "section-1+=1.3");
+        clans.to(".stat-ggblu-building-name-12", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-12", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-12", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-13", {translateX: 0, duration: 0.5}, "section-1+=1.4");
+        clans.to(".stat-ggblu-building-name-13", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-13", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-13", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-building-icon-14", {translateX: 0, duration: 0.5}, "section-1+=1.5");
+        clans.to(".stat-ggblu-building-name-14", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-bonus-14", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-ggblu-building-default-14", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.addLabel("cima");
+        clans.to(".cima-region-tag", {translateY: 0, duration: 0.5}, "section-title+=1.2");
+        clans.to(".cima-tag", {translateY: 0, duration: 0.5}, "<0.1");
+        clans.to(".cima-subtag", {translateY: 0, duration: 0.5}, "<0.1");
+
+        clans.addLabel("cima-stat");
+        clans.to(".stat-cima-building-icon-1", {translateX: 0, duration: 0.5}, "section-1+=0.4");
+        clans.to(".stat-cima-building-name-1", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-1", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-1", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-2", {translateX: 0, duration: 0.5}, "section-1+=0.5");
+        clans.to(".stat-cima-building-name-2", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-2", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-2", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-3", {translateX: 0, duration: 0.5}, "section-1+=0.6");
+        clans.to(".stat-cima-building-name-3", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-3", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-3", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-4", {translateX: 0, duration: 0.5}, "section-1+=0.7");
+        clans.to(".stat-cima-building-name-4", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-4", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-4", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-5", {translateX: 0, duration: 0.5}, "section-1+=0.8");
+        clans.to(".stat-cima-building-name-5", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-5", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-5", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-6", {translateX: 0, duration: 0.5}, "section-1+=0.9");
+        clans.to(".stat-cima-building-name-6", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-6", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-6", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-7", {translateX: 0, duration: 0.5}, "section-1+=1.0");
+        clans.to(".stat-cima-building-name-7", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-7", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-7", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-8", {translateX: 0, duration: 0.5}, "section-1+=1.1");
+        clans.to(".stat-cima-building-name-8", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-8", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-8", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-9", {translateX: 0, duration: 0.5}, "section-1+=1.2");
+        clans.to(".stat-cima-building-name-9", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-9", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-9", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-10", {translateX: 0, duration: 0.5}, "section-1+=1.3");
+        clans.to(".stat-cima-building-name-10", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-10", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-10", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-11", {translateX: 0, duration: 0.5}, "section-1+=1.4");
+        clans.to(".stat-cima-building-name-11", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-11", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-11", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-12", {translateX: 0, duration: 0.5}, "section-1+=1.5");
+        clans.to(".stat-cima-building-name-12", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-12", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-12", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-13", {translateX: 0, duration: 0.5}, "section-1+=1.6");
+        clans.to(".stat-cima-building-name-13", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-13", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-13", {translateX: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-building-icon-14", {translateX: 0, duration: 0.5}, "section-1+=1.7");
+        clans.to(".stat-cima-building-name-14", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-bonus-14", {translateX: 0, duration: 0.5}, "<0.1");
+        clans.to(".stat-cima-building-default-14", {translateX: 0, duration: 0.5}, "<0.1");
+
+
+        clans.to(".stat-ggred-visit", {translateX: 0, duration: 0.5}, "ggred+=0.1");
+        clans.to(".stat-ggred-quote", {translateY: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-ggblu-visit", {translateX: 0, duration: 0.5}, "ggblu+=0.1");
+        clans.to(".stat-ggblu-quote", {translateY: 0, duration: 0.5}, "<0.1");
+
+        clans.to(".stat-cima-visit", {translateX: 0, duration: 0.5}, "cima+=0.1");
+        clans.to(".stat-cima-quote", {translateY: 0, duration: 0.5}, "<0.1");
+
+    })
+</script>

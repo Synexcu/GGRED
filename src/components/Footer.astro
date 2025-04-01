@@ -1,3 +1,20 @@
+---
+const { url } = Astro.request;
+const currentPath = new URL(url).pathname;
+
+// Determine if the current page is GGRED or GGBLU
+const isGGREDPage = currentPath === '/ggred';
+const isGGBLUPage = currentPath === '/ggblu';
+const isHomePage = currentPath === '/';
+
+// Show the footer only on GGRED or GGBLU pages
+const showFooter = isGGREDPage || isGGBLUPage;
+
+// Show "Clan Members" for GGRED & GGBLU, and "Community Members" for Home
+const showMembersSection = isGGREDPage || isGGBLUPage || isHomePage;
+const membersText = isHomePage ? "Community Members" : "Clan Members";
+const membersHref = isHomePage ? "#community" : "#members";
+---
 <footer class="border-t py-6 md:px-8 md:py-0">
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-wrap md:text-left text-center -mb-10 -mx-4">
@@ -10,12 +27,18 @@
           <li>
             <a href="#welcome" class="text-foreground/70 hover:text-foreground/90">Welcome</a>
           </li>
-          <li>
-            <a href="#overview" class="text-foreground/70 hover:text-foreground/90">Clan Overview</a>
-          </li>
-          <li>
-            <a href="#members" class="text-foreground/70 hover:text-foreground/90">Clan Members</a>
-          </li>
+          {showFooter && (
+            <li>
+              <a href="#overview" class="text-foreground/70 hover:text-foreground/90">Clan Overview</a>
+            </li>
+          )}
+          {showMembersSection && (
+            <li>
+              <a href={membersHref} class="text-foreground/70 hover:text-foreground/90">
+                {membersText}
+              </a>
+            </li>
+          )}
           <li>
             <a href="#contributors" class="text-foreground/70 hover:text-foreground/90">Hall of Fame</a>
           </li>
@@ -31,28 +54,28 @@
             <a href="/ggblu" class="text-foreground/70 hover:text-foreground/90">GGBLU</a>
           </li>
           <li>
-            <a href="" class="text-foreground/70 hover:text-foreground/90">Third Link</a>
+            <a href="/cima" class="text-foreground/70 hover:text-foreground/90">CIMA</a>
           </li>
-          <li>
+          <!-- <li>
             <a href="" class="text-foreground/70 hover:text-foreground/90">Fourth Link</a>
-          </li>
+          </li> -->
         </nav>
       </div>
       <div class="lg:w-1/6 md:w-1/2 w-full px-4">
         <h2 class="title-font font-medium text-foreground tracking-widest text-sm mb-3">ALLIANCES</h2>
         <nav class="list-none mb-10">
-          <li>
+          <!-- <li>
             <a href="alliances/YOR" class="text-foreground/70 hover:text-foreground/90">YOR ?</a>
           </li>
           <li>
             <a href="/alliances/REPOI" class="text-foreground/70 hover:text-foreground/90">REPOI ?</a>
-          </li>
+          </li> -->
           <li>
-            <a href="" class="text-foreground/70 hover:text-foreground/90">Third Link</a>
+            <a href="" class="text-foreground/70 hover:text-foreground/90">! Work in Progress !</a>
           </li>
-          <li>
+          <!-- <li>
             <a href="" class="text-foreground/70 hover:text-foreground/90">Fourth Link</a>
-          </li>
+          </li> -->
         </nav>
       </div>
       <!-- <div class="lg:w-1/6 md:w-1/2 w-full px-4">
