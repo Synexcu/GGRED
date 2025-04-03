@@ -22,13 +22,10 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
 
 ## Changelogs
 
-- 02/04/2025 (GMT+8)
-    - Cleaning up the Home Page of unused templates
-    - Added GSAP animation for Clan Infrastructure
-    - Hiding Alliances content for now and WIP
-    - Added site meta image
-    - Revamped footer to describe each page contents better
-    - Changed Redacted_Daddy as the GGBLU's quote mascot
+- 04/04/2025 (GMT+8)
+    - Updated GGBLU's quote to be more family-friendly rated
+    - Added new assets for discord profile image
+    - Edited Footer to display World of Warships for credits
 
 > [!NOTE]
 > Check [Changelogs.md](https://github.com/Synexcu/GGRED/blob/master/Changelogs.md) for past updates.

@@ -28,3 +28,8 @@
 - Added site meta image
 - Revamped footer to describe each page contents better
 - Changed Redacted_Daddy as the GGBLU's quote mascot
+
+## 04/04/2025 (GMT+8)
+- Updated GGBLU's quote to be more family-friendly rated
+- Added new assets for discord profile image
+- Edited Footer to display World of Warships for credits
