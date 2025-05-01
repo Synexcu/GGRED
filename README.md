@@ -22,10 +22,11 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
 
 ## Changelogs
 
-- 04/04/2025 (GMT+8)
-    - Updated GGBLU's quote to be more family-friendly rated
-    - Added new assets for discord profile image
-    - Edited Footer to display World of Warships for credits
+- 02/05/2025 (GMT+8)
+    - Added GGRED's and GGBLU's requirement page section
+    - Added GGRED's and GGBLU's why join us? page section
+    - Added button to join and apply through discord underneath both of the pages respectively.
+    - Added section links to the new page section in the Footer
 
 > [!NOTE]
 > Check [Changelogs.md](https://github.com/Synexcu/GGRED/blob/master/Changelogs.md) for past updates.

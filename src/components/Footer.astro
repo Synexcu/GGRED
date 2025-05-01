@@ -27,6 +27,21 @@ const membersHref = isHomePage ? "#community" : "#members";
           <li>
             <a href="#welcome" class="text-foreground/70 hover:text-foreground/90">Welcome</a>
           </li>
+          {isHomePage && (
+            <li>
+              <a href="#clansinfrastructures" class="text-foreground/70 hover:text-foreground/90">Clan's Infrastructures</a>
+            </li>
+          )}          
+          {(isGGREDPage || isGGBLUPage) && (
+            <>
+              <li>
+                <a href="#whyus" class="text-foreground/70 hover:text-foreground/90">Why Us?</a>
+              </li>
+              <li>
+                <a href="#requirements" class="text-foreground/70 hover:text-foreground/90">Requirements</a>
+              </li>
+            </>
+          )}
           {showFooter && (
             <li>
               <a href="#overview" class="text-foreground/70 hover:text-foreground/90">Clan Overview</a>
