@@ -39,3 +39,7 @@
 - Added GGRED's and GGBLU's why join us? page section
 - Added button to join and apply through discord underneath both of the pages respectively.
 - Added section links to the new page section in the Footer
+
+## 07/05/2025 (GMT+8)
+- Hotfix for Commisioned Officer's card GSAP
+- Added Home Page for list of pages in the README.md

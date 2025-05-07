@@ -4,6 +4,7 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
 
 ## Pages
 
+- [Home page](https://ggred.vercel.app/): GG Co. World of Warships clan page featuring our Community Clans and their Infrastructures.
 - [GGRED page](https://ggred.vercel.app/ggred): A GGRED World of Warships clan page featuring our main clan GGRED.
 - [GGBLU page](https://ggred.vercel.app/ggblu): A GGBLU World of Warships clan page featuring our main clan's extension; GGBLU.
 - [CIMA page](https://ggred.vercel.app/cima): North America branch of GG co. Clan.
@@ -22,11 +23,9 @@ This app is built with Astro, Tailwind CSS, and Shadcn UI.
 
 ## Changelogs
 
-- 02/05/2025 (GMT+8)
-    - Added GGRED's and GGBLU's requirement page section
-    - Added GGRED's and GGBLU's why join us? page section
-    - Added button to join and apply through discord underneath both of the pages respectively.
-    - Added section links to the new page section in the Footer
+- 07/05/2025 (GMT+8)
+    - Hotfix for Commisioned Officer's card GSAP
+    - Added Home Page for list of pages in the README.md
 
 > [!NOTE]
 > Check [Changelogs.md](https://github.com/Synexcu/GGRED/blob/master/Changelogs.md) for past updates.
