@@ -4,6 +4,7 @@ const CLAN_ID3 = import.meta.env.API_CLANID3;
 
 const APPLICATION_ID = import.meta.env.API_APPLICATIONID;
 const APPLICATION_ID2 = import.meta.env.API_APPLICATIONID2;
+const APPLICATION_ID3 = import.meta.env.API_APPLICATIONID3;
 
 export interface ClanMember {
     role: string;
@@ -51,10 +52,18 @@ export async function fetchClanInfo(region: string, clanID : number): Promise<Cl
         appIdToUse = APPLICATION_ID2;
     } else if (clanID === 3) {
         clanIdToUse = CLAN_ID3;
-        appIdToUse = APPLICATION_ID2;
+        appIdToUse = APPLICATION_ID3;
     } else {
         throw new Error('Invalid clan ID provided');
     }
+
+    // --- ADD THIS DEBUGGING BLOCK ---
+    console.log(`[DEBUG] Attempting fetch for clanID: ${clanID}`);
+    console.log(`[DEBUG] CLAN_ID3 from env: ${CLAN_ID3}`);
+    console.log(`[DEBUG] CLAN_ID (1) from env: ${CLAN_ID}`);
+    console.log(`[DEBUG] CLAN_ID2 from env: ${CLAN_ID2}`);
+    console.log(`[DEBUG] Resulting clanIdToUse: ${clanIdToUse}`);
+    // ---------------------------------
 
     let domain : string;
 
