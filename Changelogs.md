@@ -43,3 +43,7 @@
 ## 07/05/2025 (GMT+8)
 - Hotfix for Commisioned Officer's card GSAP
 - Added Home Page for list of pages in the README.md
+
+## 15/11/2025 (GMT+7)
+- Expanded Home Page's Community GSAP list
+- Hard-coded CIMA's clan name (Pending troubleshoot *if I'm not lazy)
